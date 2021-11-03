@@ -48,3 +48,11 @@ Thumbs.db
 *.mov
 *.wmv
 
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+application.yml
