@@ -6,8 +6,11 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,24 +88,41 @@ public class AllUserController {
 //    }
 
 
-    public Mono<List<User>> someRestCall(String accessToken) {
+    public Mono<List<User>> someRestCall(String accessToken, int page) {
         return this.webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/campus/29/users")
                         .queryParam("page[size]", "100")
+                        .queryParam("page[number]", page)
                         .build())
                 .header("Authorization", accessToken)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<User>>() {});
     }
 
+
     @RequestMapping("/user")
     public List<User> getAllUsers() {
         //String accessToken = getAccessToken();
         //List<User> userList = sendApiRequest(accessToken);
         //return userList;
-        Mono<List<User>> userMono = someRestCall(accessToken);
-        return userMono.block();
+        List<User> userList = new ArrayList<>();
+        int page = 0;
+
+        while (true) {
+            System.out.println(page);
+            if (page == 6 || page == 26) {
+                page++;
+            }
+            List<User> currList = someRestCall(accessToken, page).block();
+            if (currList.isEmpty()) {
+                break;
+            };
+            userList.addAll(currList);
+            page++;
+
+        }
+        return userList;
     }
 }
