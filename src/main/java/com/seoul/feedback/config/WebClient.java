@@ -2,13 +2,14 @@ package com.seoul.feedback.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class RestTemplateClient {
-    @Bean
+public class WebClient {
 
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+//    @Bean
+    public WebClient webClient() {
+        return new WebClient();
     }
 }

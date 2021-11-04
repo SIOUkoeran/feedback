@@ -1,25 +1,22 @@
 package com.seoul.feedback.controller;
 
-import com.seoul.feedback.dto.Token;
 import com.seoul.feedback.dto.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AllUserController {
 
-    private final RestTemplate restTemplate;
+    //private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     @Value("${42.user-code}")
     private String userCode;
@@ -37,6 +34,9 @@ public class AllUserController {
     private String accessToken;
 
 
+    public AllUserController(WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.baseUrl("https://api.intra.42.fr/v2").build();
+    }
     private String requestQuery =
             "grant_type=" + "authorization_code" +
             "&" + "code=" + userCode +
@@ -45,38 +45,64 @@ public class AllUserController {
             "&" + "redirect_uri=" + redirectUri +
             "&" + "scope=" + "public";
 
-    private String getAccessToken() {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        ResponseEntity<Token> tokenResponseEntity = restTemplate.exchange(
-                "https://api.intra.42.fr/oauth/token?" + requestQuery,
-                HttpMethod.POST,
-                new HttpEntity(httpHeaders),
-                Token.class);
+//    private String getAccessToken() {
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        ResponseEntity<Token> tokenResponseEntity = restTemplate.exchange(
+//                "https://api.intra.42.fr/oauth/token?" + requestQuery,
+//                HttpMethod.POST,
+//                new HttpEntity(httpHeaders),
+//                Token.class);
+//
+//        return tokenResponseEntity.getBody().getAccess_token();
+//    }
 
-        return tokenResponseEntity.getBody().getAccess_token();
+//    private List<User> sendApiRequest(String accessToken) {
+//        // 헤더
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.set("Authorization", accessToken);
+//
+//        // api 요청
+//        int pageNum = 0;
+//        List<User> userList = new ArrayList<>();
+//
+//        while (true) {
+//            String url = "https://api.intra.42.fr/v2/campus/29/users?page[size]=100&page[number]=" + pageNum;
+//            ResponseEntity<List<User>> response = restTemplate.exchange(
+//                    url,
+//                    HttpMethod.GET,
+//                    new HttpEntity(httpHeaders),
+//                    new ParameterizedTypeReference<List<User>>() {
+//                    }
+//            );
+//            List<User> currList = response.getBody();
+//            if (currList == null) {
+//                break;
+//            }
+//            userList.addAll(currList);
+//            pageNum++;
+//        }
+//        return userList;
+//    }
+
+
+    public Mono<List<User>> someRestCall(String accessToken) {
+        return this.webClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/campus/29/users")
+                        .queryParam("page[size]", "100")
+                        .build())
+                .header("Authorization", accessToken)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<User>>() {});
     }
-
-    private List<User> sendApiRequest(String accessToken) {
-        // 헤더
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", accessToken);
-
-        // api 요청
-        ResponseEntity<List<User>> response = restTemplate.exchange(
-                "https://api.intra.42.fr/v2/campus/29/users",
-                HttpMethod.GET,
-                new HttpEntity(httpHeaders),
-                new ParameterizedTypeReference<List<User>>() {}
-        );
-        List<User> userList = response.getBody();
-        return userList;
-    }
-
 
     @RequestMapping("/user")
     public List<User> getAllUsers() {
         //String accessToken = getAccessToken();
-        List<User> userList = sendApiRequest(accessToken);
-        return userList;
+        //List<User> userList = sendApiRequest(accessToken);
+        //return userList;
+        Mono<List<User>> userMono = someRestCall(accessToken);
+        return userMono.block();
     }
 }
