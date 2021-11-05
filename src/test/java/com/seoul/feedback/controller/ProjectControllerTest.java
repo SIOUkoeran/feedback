@@ -2,10 +2,13 @@ package com.seoul.feedback.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.dto.ProjectCreateRequest;
+import com.seoul.feedback.service.ProjectService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -27,9 +30,15 @@ class ProjectControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Mock
+    ProjectService projectService;
+
+    @InjectMocks
+    ProjectController projectController;
+
     @BeforeAll
     public void setup() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new ProjectController()).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(projectController).build();
     }
 
     @Test

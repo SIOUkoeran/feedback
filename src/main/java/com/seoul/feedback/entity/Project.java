@@ -43,6 +43,9 @@ public class Project {
         return name;
     }
 
+    public String getDescription() {
+        return description;
+    }
 
     @Override
     public String toString() {

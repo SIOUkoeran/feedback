@@ -2,40 +2,27 @@ package com.seoul.feedback.service;
 
 import com.seoul.feedback.dto.ProjectCreateRequest;
 import com.seoul.feedback.entity.Project;
-import com.seoul.feedback.repository.ProjectMemberRepository;
 import com.seoul.feedback.repository.ProjectRepository;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-@SpringBootTest()
+
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS) // beforeall을 non-static으로 유지
 class ProjectServiceTest {
 
-    @Autowired
+    @InjectMocks // 테스트 대상
     ProjectService projectService;
 
-    @Autowired
+    @Mock // 테스트 도와주는 의존성
     ProjectRepository projectRepository;
-
-    @BeforeAll
-    public void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     private Project project() {
         return Project.builder()
@@ -53,14 +40,18 @@ class ProjectServiceTest {
     @Test
     public void 프로젝트_등록() {
 
+        // given 테스트 하기 전 상태 or 조건 설명
+        doReturn(project()).when(projectRepository).save(any(Project.class));
 
         // when 요청
-        Project result = projectService.saveProject(new ProjectCreateRequest("testname", "desctest"));
+        Project result = projectService.saveProject(new ProjectCreateRequest("eun-park", "what"));
 
-        // then 예상되는 변화
-        assertNotNull(result.getId());
+        // then
+        assertEquals(result.getName(), "testname");
+        assertEquals(result.getDescription(), "desctest");
 
-
+        // verify 생성된 mock은 자신의 모든 행동을 기억하는데, verify()를 이용해서 원하는 메소드가 특정 조건으로 실행되었는지를 검증할 수 있다.
+        verify(projectRepository, times(1)).save(any(Project.class));
 
     }
 }
