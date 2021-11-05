@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ProjectMemberRepositoryTest {
+class ProjectUserRepositoryTest {
 
     /*
     @DataJpaTest: 인메모리 데이터베이스를 사용하여 실제 데이터베이스를 사용하지 않음

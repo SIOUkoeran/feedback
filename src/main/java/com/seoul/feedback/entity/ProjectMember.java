@@ -13,8 +13,8 @@ import javax.persistence.Id;
 @ToString
 @Getter
 public class ProjectMember {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
+    @Column(name= "project_member_id")
     private Long id;
 
     @Column

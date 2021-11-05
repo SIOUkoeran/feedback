@@ -37,7 +37,6 @@ public class ProjectService {
         return Project.builder()
                 .name(name)
                 .description(description)
-                .projectMemberList(projectMemberList)
                 .build();
     }
 
