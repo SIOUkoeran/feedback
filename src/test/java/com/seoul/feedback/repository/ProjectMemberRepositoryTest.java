@@ -1,5 +1,6 @@
 package com.seoul.feedback.repository;
 
+import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.ProjectMember;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
@@ -19,9 +21,16 @@ class ProjectMemberRepositoryTest {
     @Autowired
     ProjectMemberRepository projectMemberRepository;
 
+
     @Test
-    @DisplayName("projectMember가 잘 저장 되는지")
-    public void 프로젝트_멤버_저장() {
+    @DisplayName("repository가 NUll이 아님")
+    public void projectMemberRepository_not_null() {
+        assertNotNull(projectMemberRepository);
+    }
+
+    @Test
+    @DisplayName("projectMember가 잘 등록되는지")
+    public void 프로젝트_멤버_등록() {
         System.out.println(projectMemberRepository);
 
         // given
@@ -35,6 +44,7 @@ class ProjectMemberRepositoryTest {
 
         // then
         assertNotNull(saved.getId());
+        assertEquals("eun-park", saved.getLogin());
     }
 
 
