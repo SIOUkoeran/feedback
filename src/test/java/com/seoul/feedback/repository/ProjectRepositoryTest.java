@@ -39,12 +39,13 @@ class ProjectRepositoryTest {
 
     @Test
     @DisplayName("project가 잘 저장 되는지")
-    public void 프로젝트_저장() {
+    public void 프로젝트_저장_with_멤버() {
 
         //given
         Project project = Project.builder()
                 .name("project1")
                 .description("desc1")
+                .projectMemberList(projectMemberList)
                 .build();
 
         //when

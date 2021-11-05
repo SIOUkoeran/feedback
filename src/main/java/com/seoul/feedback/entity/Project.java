@@ -28,16 +28,12 @@ public class Project {
     }
 
     @Builder
-    public Project(String name, String description) {
+    public Project(String name, String description, List<ProjectMember> projectMemberList) {
         this.name = name;
         this.description = description;
-        this.projectMemberList = new ArrayList<>();
+        this.projectMemberList = projectMemberList;
     }
 
-
-    public void addMember(ProjectMember projectMember) {
-        this.projectMemberList.add(projectMember);
-    }
 
     public Long getId() {
         return id;
