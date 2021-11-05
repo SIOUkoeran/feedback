@@ -1,6 +1,6 @@
 package com.seoul.feedback.service;
 
-import com.seoul.feedback.dto.ProjectCreateRequest;
+import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.repository.ProjectRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +18,10 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProjectServiceTest {
 
+    /*
+    실제 데이터베이스가 아닌 mock repository를 사용한다
+     */
+
     @InjectMocks // 테스트 대상
     ProjectService projectService;
 
@@ -32,7 +36,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    @DisplayName("repository가 NUll이 아님")
+    @DisplayName("repository가 null이 아님")
     public void projectRepository_not_null() {
         assertNotNull(projectRepository);
     }
@@ -44,7 +48,7 @@ class ProjectServiceTest {
         doReturn(project()).when(projectRepository).save(any(Project.class));
 
         // when 요청
-        Project result = projectService.saveProject(new ProjectCreateRequest("eun-park", "what"));
+        Project result = projectService.save(new ProjectCreateRequest("eun-park", "what"));
 
         // then
         assertEquals(result.getName(), "testname");

@@ -1,7 +1,7 @@
 package com.seoul.feedback.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seoul.feedback.dto.ProjectCreateRequest;
+import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.service.ProjectService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -46,8 +46,8 @@ class ProjectControllerTest {
     public void 프로젝트_post() throws Exception {
 
         mockMvc.perform(post("/api/v1/project")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new ProjectCreateRequest("project100", "desc100"))))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new ProjectCreateRequest("project100", "desc100"))))
                 .andExpect(MockMvcResultMatchers.content().string("project100, desc100"))
                 .andDo(print())
                 .andExpect(status().isOk());

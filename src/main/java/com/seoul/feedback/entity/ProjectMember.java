@@ -1,6 +1,8 @@
 package com.seoul.feedback.entity;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
+@ToString
+@Getter
 public class ProjectMember {
     @Id
     @GeneratedValue
@@ -24,19 +28,5 @@ public class ProjectMember {
         this.login = login;
     }
 
-    public String getLogin() {
-        return login;
-    }
 
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return "ProjectMember{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                '}';
-    }
 }

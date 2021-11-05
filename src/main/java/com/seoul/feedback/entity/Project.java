@@ -1,14 +1,16 @@
 package com.seoul.feedback.entity;
 
-import com.seoul.feedback.dto.User;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@ToString
 public class Project {
     @Id @GeneratedValue
     private Long id;
@@ -20,11 +22,18 @@ public class Project {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "proejct_member")
+    @JoinColumn(name = "project_id")
     private List<ProjectMember> projectMemberList;
 
     public Project() {
 
+    }
+
+    // for 멤버 신청 & 승인
+    public Project(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.projectMemberList = new ArrayList<>();
     }
 
     @Builder
@@ -34,26 +43,4 @@ public class Project {
         this.projectMemberList = projectMemberList;
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", projectMemberList=" + projectMemberList +
-                '}';
-    }
 }
