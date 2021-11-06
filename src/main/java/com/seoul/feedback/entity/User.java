@@ -1,18 +1,17 @@
 package com.seoul.feedback.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@NoArgsConstructor
 public class User {
     @Id @GeneratedValue
     @Column(name= "user_id")
@@ -21,7 +20,6 @@ public class User {
     @Column
     private String login;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Register> registerList = new ArrayList<>();
 

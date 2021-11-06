@@ -1,14 +1,13 @@
 package com.seoul.feedback.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Register {
 
@@ -16,7 +15,7 @@ public class Register {
     @Column(name="join_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -32,7 +31,6 @@ public class Register {
 
     public void setProject(Project project) {
         this.project = project;
-
         project.getRegisterList().add(this);
     }
 

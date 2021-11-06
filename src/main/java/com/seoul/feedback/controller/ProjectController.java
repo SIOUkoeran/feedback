@@ -4,7 +4,9 @@ import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.service.ProjectService;
-import lombok.*;
+import com.seoul.feedback.service.RegisterService;
+import com.seoul.feedback.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +17,15 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final UserService userService;
+    private final RegisterService registerService;
 
     @PostMapping(value = "/project")
     public ProjectResponse create(@RequestBody ProjectCreateRequest request) {
-        System.out.println(request);
-        return new ProjectResponse(projectService.save(request));
+        Project project = projectService.save(request);
+        userService.saveAll(request.getUserCreateRequestList());
+        registerService.saveAll(project.getId(), request.getUserCreateRequestList());
+        return new ProjectResponse(project);
     }
 
     @GetMapping(value = "/projects")

@@ -20,25 +20,27 @@ public class UserService {
     private final UserRepository userRepository;
     private final RegisterRepository registerRepository;
 
-    private void validateDuplicateUser(User user) {
+    private boolean validateDuplicateUser(User user) {
         Optional<User> optionalUser = userRepository.findByLogin(user.getLogin());
         if (optionalUser.isPresent()) {
-            throw new UserDuplicatedException(user.getLogin());
+            return true;
+            //throw new UserDuplicatedException(user.getLogin());
+        }
+        return false;
+    }
+
+    public void save(UserCreateRequest request) {
+        User user = User.builder()
+                .login(request.getLogin())
+                .build();
+        if (!validateDuplicateUser(user)) {
+            userRepository.save(user);
         }
     }
 
-    public void save(Project project, List<UserCreateRequest> requestList) {
+    public void saveAll(List<UserCreateRequest> requestList) {
         for (UserCreateRequest request : requestList) {
-            User user = User.builder()
-                    .login(request.getLogin())
-                    .build();
-            //validateDuplicateUser(user);
-            User savedUser = userRepository.save(user);
-            Register register = Register.createRegister(
-                    savedUser,
-                    project);
-            System.out.println(register);
-            Register saved = registerRepository.save(register);
+            save(request);
         }
     }
 }
