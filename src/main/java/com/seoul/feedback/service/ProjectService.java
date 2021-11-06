@@ -16,6 +16,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final UserService userService;
+    private final RegisterService registerService;
 
     public List<Project> list() {
         return projectRepository.findAll();
@@ -23,11 +24,12 @@ public class ProjectService {
 
     @Transactional
     public Project save(ProjectCreateRequest request) {
-        userService.save(request.getUserCreateRequestList());
-        return projectRepository.save(Project.builder()
+        Project savedProject = projectRepository.save(Project.builder()
                 .name(request.getName())
                 .description(request.getDescription())
                 .build());
+        userService.save(savedProject, request.getUserCreateRequestList());
+        return savedProject;
     }
 
 }
