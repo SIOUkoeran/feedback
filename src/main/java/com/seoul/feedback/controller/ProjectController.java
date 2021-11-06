@@ -22,9 +22,14 @@ public class ProjectController {
         return new ProjectResponse(projectService.save(request));
     }
 
-    @GetMapping(value = "/project")
-    public List<Project> list() {
+    @GetMapping(value = "/projects")
+    public List<ProjectResponse> list() {
         return projectService.list();
+    }
+
+    @GetMapping(value = "/project/{projectId}")
+    public ProjectResponse getProject(@PathVariable Long projectId) {
+        return projectService.findById(projectId);
     }
 
 }

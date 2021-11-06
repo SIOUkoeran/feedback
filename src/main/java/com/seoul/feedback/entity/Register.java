@@ -32,6 +32,7 @@ public class Register {
 
     public void setProject(Project project) {
         this.project = project;
+
         project.getRegisterList().add(this);
     }
 
