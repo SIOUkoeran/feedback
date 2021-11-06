@@ -4,16 +4,12 @@ import lombok.*;
 
 import java.util.List;
 
-@ToString
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectCreateRequest {
     private String name;
     private String description;
     private List<UserCreateRequest> userCreateRequestList;
-
-    public ProjectCreateRequest() {
-    }
 
     public ProjectCreateRequest(String name, String description) {
         this.name = name;

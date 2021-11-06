@@ -9,11 +9,13 @@ import java.util.List;
 public class RegisterResponse {
     private Long id;
     private String login;
+    private Long projectId;
 
     @Builder
-    public RegisterResponse(Long id, String login) {
+    public RegisterResponse(Long id, String login, Long projectId) {
         this.id = id;
         this.login = login;
+        this.projectId = projectId;
     }
 
 }
