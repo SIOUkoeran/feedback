@@ -4,8 +4,10 @@ import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.UserCreateRequest;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.exception.UserDuplicatedException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +15,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,15 +55,40 @@ class UserServiceTest {
 
         // given 테스트 하기 전 상태 or 조건 설명
         doReturn(user()).when(userRepository).save(any(User.class));
-
-        // when 요청
-        User result = userService.save(new UserCreateRequest("bear"));
-
-        // then
-        assertEquals(result.getLogin(), "seokim");
+//
+//        // when 요청
+//        User result = userService.save(new UserCreateRequest("bear"));
+//
+//        // then
+//        Exception exception = assertThrows(UserDuplicatedException.class, () -> {
+//            userService.save(new UserCreateRequest("bear"));
+////        });
+//        System.out.println(exception);
 
         // verify 생성된 mock은 자신의 모든 행동을 기억하는데, verify()를 이용해서 원하는 메소드가 특정 조건으로 실행되었는지를 검증할 수 있다.
         verify(userRepository, times(1)).save(any(User.class));
+
+    }
+
+    @Test
+    @DisplayName("login으로 유저조회")
+    public void 유저_조회_with_login() {
+
+        // given 테스트 하기 전 상태 or 조건 설명
+        User user1 = User.builder()
+                .login("eun-park")
+                .build();
+
+        List<User> userList = new ArrayList<>();
+        userList.add(user1);
+
+        //doReturn(user1).when(userRepository).findByLogin(any());
+
+        // when
+        userRepository.save(User.builder().login("eun-park").build());
+
+        //then
+
 
     }
 }

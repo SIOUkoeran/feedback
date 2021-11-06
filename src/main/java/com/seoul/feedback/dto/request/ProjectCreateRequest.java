@@ -10,7 +10,7 @@ import java.util.List;
 public class ProjectCreateRequest {
     private String name;
     private String description;
-    private List<MemberCreateRequest> memberCreateRequestList;
+    private List<UserCreateRequest> userCreateRequestList;
 
     public ProjectCreateRequest() {
     }
@@ -20,9 +20,9 @@ public class ProjectCreateRequest {
         this.description = description;
     }
 
-    public ProjectCreateRequest(String name, String description, List<MemberCreateRequest> memberCreateRequestList) {
+    public ProjectCreateRequest(String name, String description, List<UserCreateRequest> userCreateRequestList) {
         this.name = name;
         this.description = description;
-        this.memberCreateRequestList = memberCreateRequestList;
+        this.userCreateRequestList = userCreateRequestList;
     }
 }

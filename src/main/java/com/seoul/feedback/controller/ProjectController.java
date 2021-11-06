@@ -17,6 +17,7 @@ public class ProjectController {
 
     @PostMapping(value = "/project")
     public Project create(@RequestBody ProjectCreateRequest request) {
+        System.out.println(request);
         return projectService.save(request);
     }
 
