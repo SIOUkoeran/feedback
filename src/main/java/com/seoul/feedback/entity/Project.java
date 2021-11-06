@@ -24,7 +24,6 @@ public class Project {
     @Column
     private String description;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "project")
     private List<Register> registerList = new ArrayList<>();
 

@@ -1,6 +1,7 @@
 package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
+import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.service.ProjectService;
 import lombok.*;
@@ -16,9 +17,9 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping(value = "/project")
-    public Project create(@RequestBody ProjectCreateRequest request) {
+    public ProjectResponse create(@RequestBody ProjectCreateRequest request) {
         System.out.println(request);
-        return projectService.save(request);
+        return new ProjectResponse(projectService.save(request));
     }
 
     @GetMapping(value = "/project")
