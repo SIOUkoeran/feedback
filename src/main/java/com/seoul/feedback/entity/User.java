@@ -22,7 +22,7 @@ public class User {
     private String login;
 
     @OneToMany(mappedBy = "user")
-    private List<Member> memberList = new ArrayList<>();
+    private List<Register> registerList = new ArrayList<>();
 
     @Builder
     public User(String login) {

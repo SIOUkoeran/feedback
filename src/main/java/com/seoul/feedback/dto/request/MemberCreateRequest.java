@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectMemberCreateRequest {
+public class MemberCreateRequest {
     private String login;
 
 }

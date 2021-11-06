@@ -1,7 +1,6 @@
 package com.seoul.feedback.repository;
 
 import com.seoul.feedback.entity.Project;
-import com.seoul.feedback.entity.ProjectMember;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
@@ -27,18 +27,18 @@ class ProjectRepositoryTest {
     @Autowired
     ProjectRepository projectRepository;
 
-    List<ProjectMember> projectMemberList;
+    //List<ProjectMember> projectMemberList;
 
     @BeforeAll
     public void setup() {
-        projectMemberList = new ArrayList<>();
-        projectMemberList.add(ProjectMember.builder()
-                .login("eun-park")
-                .build());
-
-        projectMemberList.add(ProjectMember.builder()
-                .login("seokim")
-                .build());
+//        projectMemberList = new ArrayList<>();
+//        projectMemberList.add(ProjectMember.builder()
+//                .login("eun-park")
+//                .build());
+//
+//        projectMemberList.add(ProjectMember.builder()
+//                .login("seokim")
+//                .build());
     }
 
     @Test
@@ -58,7 +58,6 @@ class ProjectRepositoryTest {
                 .description("algo desc")
                 .build();
 
-
         //when
         Project saved = projectRepository.save(project);
 
@@ -66,6 +65,17 @@ class ProjectRepositoryTest {
         Assertions.assertNotNull(saved.getId());
         Assertions.assertEquals(project.getName(), saved.getName());
 
+    }
+
+    @Test
+    void 프로젝트_조회_사이즈가_1() {
+        // given
+
+        // when
+        List<Project> result = projectRepository.findAll();
+
+        // then
+        assertEquals(result.size(), 1);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.seoul.feedback.dto.request;
 
-import com.seoul.feedback.entity.ProjectMember;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 public class ProjectCreateRequest {
     private String name;
     private String description;
-    private List<ProjectMemberCreateRequest> projectMemberCreateList;
+    private List<MemberCreateRequest> memberCreateRequestList;
 
     public ProjectCreateRequest() {
     }
@@ -21,9 +20,9 @@ public class ProjectCreateRequest {
         this.description = description;
     }
 
-    public ProjectCreateRequest(String name, String description, List<ProjectMemberCreateRequest> projectMemberCreateList) {
+    public ProjectCreateRequest(String name, String description, List<MemberCreateRequest> memberCreateRequestList) {
         this.name = name;
         this.description = description;
-        this.projectMemberCreateList = projectMemberCreateList;
+        this.memberCreateRequestList = memberCreateRequestList;
     }
 }

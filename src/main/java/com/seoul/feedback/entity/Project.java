@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -25,11 +23,16 @@ public class Project {
     @Column
     private String description;
 
+    @OneToMany(mappedBy = "project")
+    private List<Register> registerList;
+
 
     @Builder
     public Project(String name, String description) {
         this.name = name;
         this.description = description;
     }
+
+    //== 비즈니스 로직==//
 
 }
