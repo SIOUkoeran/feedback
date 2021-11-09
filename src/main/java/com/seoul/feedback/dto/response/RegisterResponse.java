@@ -1,5 +1,6 @@
 package com.seoul.feedback.dto.response;
 
+import com.seoul.feedback.entity.Register;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,10 +13,10 @@ public class RegisterResponse {
     private Long projectId;
 
     @Builder
-    public RegisterResponse(Long id, String login, Long projectId) {
-        this.id = id;
-        this.login = login;
-        this.projectId = projectId;
+    public RegisterResponse(Register register) {
+        this.id = register.getId();
+        this.login = register.getUser().getLogin();
+        this.projectId = register.getProject().getId();
     }
 
 }
