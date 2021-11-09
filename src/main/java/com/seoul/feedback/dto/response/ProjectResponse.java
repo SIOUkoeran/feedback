@@ -22,10 +22,9 @@ public class ProjectResponse {
         this.registerResponseList = project.getRegisterList()
                         .stream()
                         .map(register -> RegisterResponse.builder()
-                            .id(register.getId())
-                            .login(register.getUser().getLogin())
-                            .build())
-                            .collect(Collectors.toList());
+                                .register(register)
+                                .build())
+                                .collect(Collectors.toList());
 
     }
 

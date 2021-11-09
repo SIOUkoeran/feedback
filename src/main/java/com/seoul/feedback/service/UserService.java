@@ -54,9 +54,7 @@ public class UserService {
 
         return user.get().getRegisterList().stream().map(
                 register -> RegisterResponse.builder()
-                        .id(register.getId())
-                        .login(user.get().getLogin())
-                        .projectId(register.getProject().getId())
+                        .register(register)
                         .build())
                 .collect(Collectors.toList());
 
