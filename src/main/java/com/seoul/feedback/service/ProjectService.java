@@ -44,12 +44,11 @@ public class ProjectService {
                 () -> new EntityNotFoundException("Project not found")));
     }
 
-    public ProjectResponse updateProject(Long projectId, ProjectUpdateRequest request) {
+    public Project update(Long projectId, ProjectUpdateRequest request) {
         Project project = projectRepository
                 .findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("Project not found"));
         project.update(request.getName(), request.getDescription());
-        projectRepository.save(project);
-        return new ProjectResponse(project);
+        return projectRepository.save(project);
     }
 }

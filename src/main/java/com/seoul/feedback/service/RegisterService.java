@@ -42,4 +42,13 @@ public class RegisterService {
         }
     }
 
+    @Transactional
+    public void update(Long projectId, List<UserCreateRequest> requestList) {
+        List<Register> registerList = registerRepository.findByProjectId(projectId);
+        for (Register register : registerList) {
+            register.cancel();
+        }
+        saveAll(projectId, requestList);
+    }
+
 }

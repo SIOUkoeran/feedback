@@ -42,8 +42,10 @@ public class ProjectController {
     @PutMapping(value = "/project/{projectId}")
     public ProjectResponse updateProject(@PathVariable Long projectId,
                                          @RequestBody ProjectUpdateRequest request) {
-        return projectService.updateProject(projectId, request);
-
+        Project project = projectService.update(projectId, request);
+        userService.saveAll(request.getUserCreateRequestList());
+        registerService.update(project.getId(), request.getUserCreateRequestList());
+        return new ProjectResponse(project);
     }
 }
 

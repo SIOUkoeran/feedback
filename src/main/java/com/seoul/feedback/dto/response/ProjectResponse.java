@@ -1,6 +1,7 @@
 package com.seoul.feedback.dto.response;
 
 import com.seoul.feedback.entity.Project;
+import com.seoul.feedback.entity.RegisterStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -20,11 +21,12 @@ public class ProjectResponse {
         this.name = project.getName();
         this.description = project.getDescription();
         this.registerResponseList = project.getRegisterList()
-                        .stream()
-                        .map(register -> RegisterResponse.builder()
-                                .register(register)
-                                .build())
-                                .collect(Collectors.toList());
+                .stream()
+                .filter(register -> register.getStatus() == RegisterStatus.REGISTER)
+                .map(register -> RegisterResponse.builder()
+                        .register(register)
+                        .build())
+                .collect(Collectors.toList());
 
     }
 
