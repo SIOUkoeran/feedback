@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 @Getter
 public class ProjectResponse {
-    private Long id;
+    private Long projectId;
     private String name;
     private String description;
     private List<RegisterResponse> registerResponseList;
 
     @Builder
     public ProjectResponse(Project project) {
-        this.id = project.getId();
+        this.projectId = project.getId();
         this.name = project.getName();
         this.description = project.getDescription();
         this.registerResponseList = project.getRegisterList()

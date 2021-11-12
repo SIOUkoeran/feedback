@@ -23,11 +23,11 @@ public class ProjectService {
 
     public List<ProjectResponse> list() {
         List<Project> findProjectList = projectRepository.findAll();
-        return findProjectList.stream().map(
-                project -> ProjectResponse.builder()
+        return findProjectList.stream()
+                .map(project -> ProjectResponse.builder()
                         .project(project)
                         .build())
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     public Project save(ProjectCreateRequest request) {
