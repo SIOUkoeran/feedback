@@ -4,6 +4,7 @@ import com.seoul.feedback.dto.request.UserCreateRequest;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.Register;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
@@ -42,4 +43,21 @@ public class RegisterService {
         }
     }
 
+    @Transactional
+    public void update(Long projectId, List<UserCreateRequest> requestList) {
+        List<Register> registerList = registerRepository.findByProjectId(projectId);
+        for (Register register : registerList) {
+            register.cancel();
+        }
+        saveAll(projectId, requestList);
+    }
+
+
+    @Transactional
+    public void delete(Long projectId) {
+        List<Register> registerList = registerRepository.findByProjectId(projectId);
+        for (Register register : registerList) {
+            register.cancel();
+        }
+    }
 }

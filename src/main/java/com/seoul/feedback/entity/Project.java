@@ -26,13 +26,24 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Register> registerList = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private ProjectStatus status;
 
     @Builder
     public Project(String name, String description) {
         this.name = name;
         this.description = description;
+        this.status = ProjectStatus.CREATE;
     }
 
     //== 비즈니스 로직==//
+    public Project update(String name, String description) {
+        this.name = name;
+        this.description = description;
+        return this;
+    }
 
+    public void cancel() {
+        this.status = ProjectStatus.CANCEL;
+    }
 }

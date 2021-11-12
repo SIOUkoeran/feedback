@@ -23,6 +23,10 @@ public class Register {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @Enumerated(EnumType.STRING)
+    private RegisterStatus status;
+
+
     //== 연관관계 편의 메서드==//
     public void setUser(User user) {
         this.user = user;
@@ -34,12 +38,22 @@ public class Register {
         project.getRegisterList().add(this);
     }
 
+    private void setStatus(RegisterStatus status) {
+        this.status = status;
+    }
+
     //== 생성 메서드 ==//
     public static Register createRegister(User user, Project project) {
         Register register = new Register();
         register.setUser(user);
         register.setProject(project);
+        register.setStatus(RegisterStatus.REGISTER);
         return register;
+    }
+
+    //== 비즈니스 메서드 ==//
+    public void cancel() {
+        this.status = RegisterStatus.CANCEL;
     }
 
 }

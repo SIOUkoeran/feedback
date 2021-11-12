@@ -1,6 +1,8 @@
 package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
+import com.seoul.feedback.dto.request.ProjectUpdateRequest;
+import com.seoul.feedback.dto.response.CommonResponse;
 import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.service.ProjectService;
@@ -38,5 +40,23 @@ public class ProjectController {
         return projectService.findById(projectId);
     }
 
+    @PutMapping(value = "/project/{projectId}")
+    public ProjectResponse updateProject(@PathVariable Long projectId,
+                                         @RequestBody ProjectUpdateRequest request) {
+        Project project = projectService.update(projectId, request);
+        userService.saveAll(request.getUserCreateRequestList());
+        registerService.update(project.getId(), request.getUserCreateRequestList());
+        return new ProjectResponse(project);
+    }
+
+    @DeleteMapping(value = "/project/{projectId}")
+    public CommonResponse deleteProject(@PathVariable Long projectId) {
+        projectService.delete(projectId);
+        registerService.delete(projectId);
+        return CommonResponse.builder()
+                .message("deleted")
+                .statusCode(200)
+                .build();
+    }
 }
 

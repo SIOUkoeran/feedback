@@ -8,13 +8,13 @@ import java.util.List;
 
 @Getter
 public class RegisterResponse {
-    private Long id;
+    private Long registerId;
     private String login;
     private Long projectId;
 
     @Builder
     public RegisterResponse(Register register) {
-        this.id = register.getId();
+        this.registerId = register.getId();
         this.login = register.getUser().getLogin();
         this.projectId = register.getProject().getId();
     }
