@@ -25,8 +25,8 @@ public class ProjectController {
     @PostMapping(value = "/project")
     public ProjectResponse create(@RequestBody ProjectCreateRequest request) {
         Project project = projectService.save(request);
-        userService.saveAll(request.getUserCreateRequestList());
-        registerService.saveAll(project.getId(), request.getUserCreateRequestList());
+        userService.saveAll(request.getUserList());
+        registerService.saveAll(project.getId(), request.getUserList());
         return new ProjectResponse(project);
     }
 
@@ -44,8 +44,8 @@ public class ProjectController {
     public ProjectResponse updateProject(@PathVariable Long projectId,
                                          @RequestBody ProjectUpdateRequest request) {
         Project project = projectService.update(projectId, request);
-        userService.saveAll(request.getUserCreateRequestList());
-        registerService.update(project.getId(), request.getUserCreateRequestList());
+        userService.saveAll(request.getUserList());
+        registerService.update(project.getId(), request.getUserList());
         return new ProjectResponse(project);
     }
 
