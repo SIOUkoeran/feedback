@@ -13,14 +13,14 @@ public class ProjectResponse {
     private Long projectId;
     private String name;
     private String description;
-    private List<RegisterResponse> registerResponseList;
+    private List<RegisterResponse> userList;
 
     @Builder
     public ProjectResponse(Project project) {
         this.projectId = project.getId();
         this.name = project.getName();
         this.description = project.getDescription();
-        this.registerResponseList = project.getRegisterList()
+        this.userList = project.getRegisterList()
                 .stream()
                 .filter(register -> register.getStatus() == RegisterStatus.REGISTER)
                 .map(register -> RegisterResponse.builder()

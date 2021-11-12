@@ -11,16 +11,16 @@ import java.util.List;
 public class ProjectUpdateRequest {
     private String name;
     private String description;
-    private List<UserCreateRequest> userCreateRequestList;
+    private List<UserCreateRequest> userList;
 
     public ProjectUpdateRequest(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public ProjectUpdateRequest(String name, String description, List<UserCreateRequest> userCreateRequestList) {
+    public ProjectUpdateRequest(String name, String description, List<UserCreateRequest> userList) {
         this.name = name;
         this.description = description;
-        this.userCreateRequestList = userCreateRequestList;
+        this.userList = userList;
     }
 }
