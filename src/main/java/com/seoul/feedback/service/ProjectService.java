@@ -1,6 +1,7 @@
 package com.seoul.feedback.service;
 
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
+import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.exception.EntityNotFoundException;
@@ -43,4 +44,12 @@ public class ProjectService {
                 () -> new EntityNotFoundException("Project not found")));
     }
 
+    public ProjectResponse updateProject(Long projectId, ProjectUpdateRequest request) {
+        Project project = projectRepository
+                .findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+        project.update(request.getName(), request.getDescription());
+        projectRepository.save(project);
+        return new ProjectResponse(project);
+    }
 }

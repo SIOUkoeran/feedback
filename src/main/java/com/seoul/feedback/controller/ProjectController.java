@@ -1,6 +1,7 @@
 package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
+import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.service.ProjectService;
@@ -38,5 +39,11 @@ public class ProjectController {
         return projectService.findById(projectId);
     }
 
+    @PutMapping(value = "/project/{projectId}")
+    public ProjectResponse updateProject(@PathVariable Long projectId,
+                                         @RequestBody ProjectUpdateRequest request) {
+        return projectService.updateProject(projectId, request);
+
+    }
 }
 

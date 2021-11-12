@@ -34,5 +34,9 @@ public class Project {
     }
 
     //== 비즈니스 로직==//
-
+    public Project update(String name, String description) {
+        this.name = name;
+        this.description = description;
+        return this;
+    }
 }
