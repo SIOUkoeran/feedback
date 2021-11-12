@@ -4,6 +4,7 @@ import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.entity.Project;
+import com.seoul.feedback.entity.ProjectStatus;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
@@ -24,6 +25,7 @@ public class ProjectService {
     public List<ProjectResponse> list() {
         List<Project> findProjectList = projectRepository.findAll();
         return findProjectList.stream()
+                .filter(project -> project.getStatus() == ProjectStatus.CREATE)
                 .map(project -> ProjectResponse.builder()
                         .project(project)
                         .build())
@@ -50,5 +52,13 @@ public class ProjectService {
                 .orElseThrow(() -> new EntityNotFoundException("Project not found"));
         project.update(request.getName(), request.getDescription());
         return projectRepository.save(project);
+    }
+
+    @Transactional
+    public void delete(Long projectId) {
+        Project project = projectRepository
+                .findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found"));
+        project.cancel();
     }
 }
