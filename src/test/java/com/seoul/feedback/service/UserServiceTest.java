@@ -49,26 +49,6 @@ class UserServiceTest {
         assertNotNull(userRepository);
     }
 
-    @Test
-    @DisplayName("유저 첫 저장")
-    public void 유저_저장() {
-
-        // given 테스트 하기 전 상태 or 조건 설명
-        doReturn(user()).when(userRepository).save(any(User.class));
-//
-//        // when 요청
-//        User result = userService.save(new UserCreateRequest("bear"));
-//
-//        // then
-//        Exception exception = assertThrows(UserDuplicatedException.class, () -> {
-//            userService.save(new UserCreateRequest("bear"));
-////        });
-//        System.out.println(exception);
-
-        // verify 생성된 mock은 자신의 모든 행동을 기억하는데, verify()를 이용해서 원하는 메소드가 특정 조건으로 실행되었는지를 검증할 수 있다.
-        verify(userRepository, times(1)).save(any(User.class));
-
-    }
 
     @Test
     @DisplayName("login으로 유저조회")

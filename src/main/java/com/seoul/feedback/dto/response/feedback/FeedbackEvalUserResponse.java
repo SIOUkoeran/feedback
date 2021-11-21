@@ -13,14 +13,14 @@ public class FeedbackEvalUserResponse {
 
     private Long EvalUserId;
     private String EvalUserLogin;
-    private List<FeedbackEvalUser> feedbackEvalUserList;
+    private List<FeedbackEvalUser> evalFeedbackList;
 
     @Builder
     public FeedbackEvalUserResponse(User user){
 
         this.EvalUserId = user.getId();
         this.EvalUserLogin = user.getLogin();
-        this.feedbackEvalUserList = user.getGaveFeedback().stream()
+        this.evalFeedbackList = user.getGaveFeedback().stream()
                 .filter(feedback -> feedback.getFeedbackStatus() == FeedbackStatus.REGISTER)
                 .map(feedback -> FeedbackEvalUser.builder()
                         .feedback(feedback).build())

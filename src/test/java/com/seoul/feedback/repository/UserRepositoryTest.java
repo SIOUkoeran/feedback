@@ -22,7 +22,6 @@ import static org.mockito.Mockito.doReturn;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("test")
 class UserRepositoryTest {
 
     @Autowired
@@ -61,7 +60,7 @@ class UserRepositoryTest {
 
         List<User> userList = new ArrayList<>();
         userList.add(user1);
-
+        this.userRepository.save(user1);
         // when
         List<User> findUserList = userRepository.findAll();
 

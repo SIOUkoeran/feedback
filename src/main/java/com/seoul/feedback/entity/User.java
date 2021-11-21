@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 public class User {
     @Id @GeneratedValue
-    @Column(name= "user_id")
+    @Column(name= "_id")
     private Long id;
 
     @Column

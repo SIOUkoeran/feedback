@@ -13,13 +13,13 @@ public class FeedbackAppraisedUserResponse {
 
     private Long appraisedUserId;
     private String appraisedUserLogin;
-    private List<FeedbackAppraisedUser> feedbackAppraisedList;
+    private List<FeedbackAppraisedUser> appraiseFeedbackList;
 
     @Builder
     public FeedbackAppraisedUserResponse(User user){
         this.appraisedUserId = user.getId();
         this.appraisedUserLogin = user.getLogin();
-        this.feedbackAppraisedList = user.getReceivedFeedback().stream()
+        this.appraiseFeedbackList = user.getReceivedFeedback().stream()
                 .filter(feedback ->  feedback.getFeedbackStatus() == FeedbackStatus.REGISTER)
                 .map(feedback -> FeedbackAppraisedUser.builder()
                         .feedback(feedback).build())

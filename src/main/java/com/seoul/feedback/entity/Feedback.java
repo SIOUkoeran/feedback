@@ -29,7 +29,8 @@ public class Feedback {
     @JoinColumn
     private User evalUser;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Project project;
 
     @Enumerated(EnumType.STRING)

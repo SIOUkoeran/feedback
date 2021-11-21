@@ -20,13 +20,13 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">1</div>
+<div class="counter">26</div>
 <p>tests</p>
 </div>
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">2</div>
 <p>failures</p>
 </div>
 </td>
@@ -38,7 +38,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.624s</div>
+<div class="counter">2.270s</div>
 <p>duration</p>
 </div>
 </td>
@@ -47,8 +47,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">92%</div>
 <p>successful</p>
 </div>
 </td>
@@ -58,13 +58,29 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Packages</a>
+<a href="#tab0">Failed tests</a>
 </li>
 <li>
-<a href="#tab1">Classes</a>
+<a href="#tab1">Packages</a>
+</li>
+<li>
+<a href="#tab2">Classes</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<ul class="linkList">
+<li>
+<a href="classes/com.seoul.feedback.controller.AllUserControllerTest.html">AllUserControllerTest</a>.
+<a href="classes/com.seoul.feedback.controller.AllUserControllerTest.html#initializationError">initializationError</a>
+</li>
+<li>
+<a href="classes/com.seoul.feedback.controller.ProjectControllerTest.html">ProjectControllerTest</a>.
+<a href="classes/com.seoul.feedback.controller.ProjectControllerTest.html#initializationError">initializationError</a>
+</li>
+</ul>
+</div>
+<div id="tab1" class="tab">
 <h2>Packages</h2>
 <table>
 <thead>
@@ -80,18 +96,48 @@
 <tbody>
 <tr>
 <td class="success">
-<a href="packages/com.seoul.feedback.service.html">com.seoul.feedback.service</a>
+<a href="packages/com.seoul.feedback.html">com.seoul.feedback</a>
 </td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.624s</td>
+<td>0.004s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="packages/com.seoul.feedback.controller.html">com.seoul.feedback.controller</a>
+</td>
+<td>7</td>
+<td>2</td>
+<td>0</td>
+<td>0.841s</td>
+<td class="failures">71%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="packages/com.seoul.feedback.repository.html">com.seoul.feedback.repository</a>
+</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0.225s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="packages/com.seoul.feedback.service.html">com.seoul.feedback.service</a>
+</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>1.200s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="tab1" class="tab">
+<div id="tab2" class="tab">
 <h2>Classes</h2>
 <table>
 <thead>
@@ -107,12 +153,102 @@
 <tbody>
 <tr>
 <td class="success">
-<a href="classes/com.seoul.feedback.service.FeedbackServiceTest.html">com.seoul.feedback.service.FeedbackServiceTest</a>
+<a href="classes/com.seoul.feedback.FeedbackApplicationTests.html">com.seoul.feedback.FeedbackApplicationTests</a>
 </td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0.624s</td>
+<td>0.004s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/com.seoul.feedback.controller.AllUserControllerTest.html">com.seoul.feedback.controller.AllUserControllerTest</a>
+</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.seoul.feedback.controller.FeedbackControllerTest.html">com.seoul.feedback.controller.FeedbackControllerTest</a>
+</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0.841s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="failures">
+<a href="classes/com.seoul.feedback.controller.ProjectControllerTest.html">com.seoul.feedback.controller.ProjectControllerTest</a>
+</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.seoul.feedback.repository.FeedbackRepositoryTest.html">com.seoul.feedback.repository.FeedbackRepositoryTest</a>
+</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0.073s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.seoul.feedback.repository.ProjectRepositoryTest.html">com.seoul.feedback.repository.ProjectRepositoryTest</a>
+</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0.080s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.seoul.feedback.repository.UserRepositoryTest.html">com.seoul.feedback.repository.UserRepositoryTest</a>
+</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0.072s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.seoul.feedback.service.FeedbackServiceTest.html">com.seoul.feedback.service.FeedbackServiceTest</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.975s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.seoul.feedback.service.ProjectServiceTest.html">com.seoul.feedback.service.ProjectServiceTest</a>
+</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0.191s</td>
+<td class="success">100%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="classes/com.seoul.feedback.service.UserServiceTest.html">com.seoul.feedback.service.UserServiceTest</a>
+</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0.034s</td>
 <td class="success">100%</td>
 </tr>
 </tbody>
@@ -126,7 +262,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.2</a> at 2021. 11. 21. 오후 12:32:31</p>
+<a href="http://www.gradle.org">Gradle 7.2</a> at 2021. 11. 21. 오후 2:29:27</p>
 </div>
 </div>
 </body>

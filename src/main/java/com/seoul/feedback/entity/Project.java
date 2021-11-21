@@ -16,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Project {
-    @Id @GeneratedValue
-    @Column(name = "project_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "_id")
     private Long id;
 
     @Column
@@ -43,6 +43,7 @@ public class Project {
     private LocalDateTime createdAt;
 
     private LocalDateTime deletedAt;
+
     @Builder
     public Project(String name, String description) {
         this.name = name;
