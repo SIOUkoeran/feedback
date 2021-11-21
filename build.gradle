@@ -2,14 +2,14 @@ plugins {
 	id 'org.springframework.boot' version '2.5.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id 'org.asciidoctor.convert' version "1.5.3"
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 ext {
 	snippetsDir = file('build/generated-snippets')
 }
 
-asciidoctor { // (3)
+asciidoctor {
 	inputs.dir snippetsDir
 	dependsOn test
 }
@@ -50,7 +50,6 @@ test {
 
 task copyDocument(type: Copy) {
 	dependsOn asciidoctor
-
 	from file("build/asciidoc/html5/")
 	into file("src/main/resources/static/docs")
 }
