@@ -3,7 +3,6 @@ package com.seoul.feedback.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import com.seoul.feedback.entity.Feedback;
@@ -19,12 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 class FeedbackControllerTest extends BaseControllerTest {
@@ -43,7 +40,6 @@ class FeedbackControllerTest extends BaseControllerTest {
 
     @Autowired
     ProjectRepository projectRepository;
-
 
 
 
@@ -86,12 +82,12 @@ class FeedbackControllerTest extends BaseControllerTest {
                                 fieldWithPath("feedbackResponses[0].star").description("평가 점수")
                         )
                 ))
-
         ;
 
     }
+
     @Test
-    void 평가유저피드백() throws Exception{
+    void getEvalUserFeedback() throws Exception{
         User evalUser = User.builder()
                 .login("evalTest")
                 .build();
@@ -135,7 +131,7 @@ class FeedbackControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void 피평가유저피드백() throws Exception{
+    void getAppraisedUserFeedbackList() throws Exception{
         User evalUser = User.builder()
                 .login("evalTest")
                 .build();
@@ -180,7 +176,7 @@ class FeedbackControllerTest extends BaseControllerTest {
     }
 
     @Test
-    void 피드백생성() throws Exception {
+    void createFeedback() throws Exception {
         User evalUser = User.builder()
                 .login("evalTest")
                 .build();
@@ -201,30 +197,32 @@ class FeedbackControllerTest extends BaseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(feedbackCreateRequest)))
                 .andDo(print())
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    void 피드백리스트확인() throws Exception {
-        User evalUser = User.builder()
-                .login("evalTest")
-                .build();
-        this.userRepository.save(evalUser);
-        System.out.println("evalUser.getId() = " + evalUser.getId());
-        User appraisedUser = User.builder()
-                .login("appraiseTest")
-                .build();
-        this.userRepository.save(appraisedUser);
-        Project project = Project.builder()
-                .description("testProject")
-                .name("project")
-                .build();
-        this.projectRepository.save(project);
-        this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, "좋아요", 5, project));
-        this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, "아주아요좋아요", 5, project));
-
-        mockMvc.perform(get("/v1/api/project/{projectId}/feedbacks", 1L)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andDo(print());
+                .andExpect(status().isCreated())
+                .andDo(document("createFeedback",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("request-header")
+                        ),
+                        requestFields(
+                                fieldWithPath("evalUserId").description("평가 유저 아이디"),
+                                fieldWithPath("appraisedUserId").description("피평가 유저 아이디"),
+                                fieldWithPath("message").description("평가 메세지"),
+                                fieldWithPath("star").description("평가 메세지")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("response-header")
+                        ),
+                        responseFields(
+                                fieldWithPath("projectId").description("프로젝트 아이디"),
+                                fieldWithPath("feedbackId").description("피드백 아이디"),
+                                fieldWithPath("evalUser.userId").description("평가 유저 아이디"),
+                                fieldWithPath("evalUser.login").description("평가 유저 로그인"),
+                                fieldWithPath("appraisedUser.userId").description("피평가 유저 아이디"),
+                                fieldWithPath("appraisedUser.login").description("피평가 유저 로그인"),
+                                fieldWithPath("message").description("피드백 메세지"),
+                                fieldWithPath("star").description("피드백 별점"),
+                                fieldWithPath("createdAt").description("피드백 생성 날짜")
+                        )
+                        ))
+        ;
     }
 }

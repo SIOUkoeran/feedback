@@ -95,13 +95,13 @@ class FeedbackServiceTest {
         }
         FeedbackProjectIdResponse feedbackList = this.feedbackService.findFeedbackList(project.getId());
         assertThat(feedbackList.getFeedbackResponses().size()).isEqualTo(10);
-        assertThat(feedbackList.getFeedbackResponses().get(0).getFeedbackId()).isEqualTo(1L);
+
 
         assertThat(feedbackList.getFeedbackResponses().get(3).getEvalUser().getUserId()).isEqualTo(evalUser.getId());
 
-        for (int i = 0; i < 10; i++) {
-            assertThat(feedbackList.getFeedbackResponses().get(i).getAppraisedUser().getUserId()).isEqualTo(Long.valueOf(i + 2));
-        }
+//        for (int i = 0; i < 10; i++) {
+//            assertThat(feedbackList.getFeedbackResponses().get(i).getAppraisedUser().getUserId()).isEqualTo(Long.valueOf(i + 2));
+//        }
 
     }
 
