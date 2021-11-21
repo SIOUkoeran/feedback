@@ -1,7 +1,7 @@
 package com.seoul.feedback.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seoul.feedback.coomon.BaseControllerTest;
+import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
