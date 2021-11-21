@@ -4,8 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,18 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Register> registerList = new ArrayList<>();
+
+    @CreationTimestamp
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "evalUser")
+    private List<Feedback> gaveFeedback = new ArrayList<>();
+
+    @OneToMany(mappedBy = "appraisedUser")
+    private List<Feedback> receivedFeedback = new ArrayList<>();
 
     @Builder
     public User(String login) {
