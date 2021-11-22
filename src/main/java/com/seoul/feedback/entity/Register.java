@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Register {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="_id")
     private Long id;
 
