@@ -3,8 +3,11 @@ package com.seoul.feedback.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,7 +15,7 @@ import javax.persistence.*;
 public class Register {
 
     @Id @GeneratedValue
-    @Column(name="join_id")
+    @Column(name="_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -26,6 +29,13 @@ public class Register {
     @Enumerated(EnumType.STRING)
     private RegisterStatus status;
 
+    @UpdateTimestamp
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @CreationTimestamp
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    private LocalDateTime deletedAt;
 
     //== 연관관계 편의 메서드==//
     public void setUser(User user) {
@@ -53,7 +63,9 @@ public class Register {
 
     //== 비즈니스 메서드 ==//
     public void cancel() {
+
         this.status = RegisterStatus.CANCEL;
+        this.deletedAt = LocalDateTime.now();
     }
 
 }

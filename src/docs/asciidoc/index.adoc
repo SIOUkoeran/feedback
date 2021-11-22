@@ -1,0 +1,36 @@
+= API Guide
+김민수;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+
+[[Overview]]
+== 개요
+
+[[Feedback]]
+
+== 1. 피드백 생성
+`Post` 요청을 사용해서 피드백을 만들 수 있습니다.
+
+operation::createFeedback[snippets='http-request,curl-request,request-fields,http-response,response-fields']
+
+== 2. 프로젝트별 피드백 리스트 받기
+`Get` 요청을 사용해서 피드백을 받을 수 있습니다.
+
+operation::feedbackListByProject[snippets='http-request,curl-request,http-response,response-fields']
+
+== 3. 평가 유저별 피드백 리스트 받기
+`Get` 요청을 사용해서 피드백을 받을 수 있습니다.
+
+operation::evalFeedbacks[snippets='http-request,curl-request,http-response,response-fields']
+
+== 4. 피평가 유저별 피드백 리스트 박기
+`Get` 요청을 사용해서 피드백을 받을 수 있습니다.
+
+operation::appraisedFeedbacks[snippets='http-request,curl-request,http-response,response-fields']

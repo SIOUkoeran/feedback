@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // beforeall을 non-static으로 유지
-@ActiveProfiles("test")
 class ProjectRepositoryTest {
 
     /*
@@ -70,6 +69,13 @@ class ProjectRepositoryTest {
     @Test
     void 프로젝트_조회_사이즈가_1() {
         // given
+        Project project = Project.builder()
+                .name("algo")
+                .description("algo desc")
+                .build();
+
+        //when
+        Project saved = projectRepository.save(project);
 
         // when
         List<Project> result = projectRepository.findAll();

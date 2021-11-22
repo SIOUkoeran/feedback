@@ -4,8 +4,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Project {
-    @Id @GeneratedValue
-    @Column(name = "project_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "_id")
     private Long id;
 
     @Column
@@ -28,6 +31,18 @@ public class Project {
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
+
+    @OneToMany(mappedBy = "project")
+    private List<Feedback> feedbackList = new ArrayList<>();
+
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    private LocalDateTime deletedAt;
 
     @Builder
     public Project(String name, String description) {
@@ -45,5 +60,6 @@ public class Project {
 
     public void cancel() {
         this.status = ProjectStatus.CANCEL;
+        this.deletedAt = LocalDateTime.now();
     }
 }
