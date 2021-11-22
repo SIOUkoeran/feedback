@@ -58,23 +58,23 @@ public class Feedback {
         return feedback;
     }
 
-    public void setMessage(String message, int star) {
+    private void setMessage(String message, int star) {
         this.message = message;
         this.star = star;
         this.feedbackStatus = FeedbackStatus.REGISTER;
     }
 
-    public void setProject(Project project) {
+    private void setProject(Project project) {
         this.project = project;
         project.getFeedbackList().add(this);
     }
 
-    public void setEvalUser(User user) {
+    private void setEvalUser(User user) {
         this.evalUser = user;
         user.getGaveFeedback().add(this);
     }
 
-    public void setAppraisedUser(User user) {
+    private void setAppraisedUser(User user) {
         this.appraisedUser = user;
         user.getReceivedFeedback().add(this);
     }
