@@ -31,10 +31,10 @@ public class Register {
     private RegisterStatus status;
 
     @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     private LocalDateTime deletedAt;
 
@@ -44,7 +44,7 @@ public class Register {
         user.getRegisterList().add(this);
     }
 
-    public void setProject(Project project) {
+    private void setProject(Project project) {
         this.project = project;
         project.getRegisterList().add(this);
     }
@@ -64,7 +64,7 @@ public class Register {
 
     //== 비즈니스 메서드 ==//
     public void cancel() {
-        this.status = RegisterStatus.CANCEL;
+        this.setStatus(RegisterStatus.CANCEL);
         this.deletedAt = LocalDateTime.now();
     }
 

@@ -45,7 +45,7 @@ public class Feedback {
     private int star;
 
     @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     private LocalDateTime deletedAt;
 

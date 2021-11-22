@@ -28,10 +28,10 @@ public class User {
     private List<Register> registerList = new ArrayList<>();
 
     @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "evalUser")
     private List<Feedback> gaveFeedback = new ArrayList<>();
