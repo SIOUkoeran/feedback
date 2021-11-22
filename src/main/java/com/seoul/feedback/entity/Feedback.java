@@ -1,5 +1,6 @@
 package com.seoul.feedback.entity;
 
+import com.seoul.feedback.entity.enums.FeedbackStatus;
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -36,11 +37,6 @@ public class Feedback {
     @Enumerated(EnumType.STRING)
     private FeedbackStatus feedbackStatus = FeedbackStatus.REGISTER;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private LocalDateTime deletedAt;
-
     @NotNull
     private String message;
 
@@ -48,9 +44,12 @@ public class Feedback {
     @Range(min = 1, max = 5)
     private int star;
 
+    @CreationTimestamp
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    public static Feedback createFeedback(User evalUser, User appraisedUser, String message, int star, Project project)
-    {
+    private LocalDateTime deletedAt;
+
+    public static Feedback createFeedback(User evalUser, User appraisedUser, String message, int star, Project project) {
         Feedback feedback = new Feedback();
         feedback.setEvalUser(evalUser);
         feedback.setAppraisedUser(appraisedUser);
@@ -59,26 +58,28 @@ public class Feedback {
         return feedback;
     }
 
-    public void setMessage(String message, int star){
+    public void setMessage(String message, int star) {
         this.message = message;
         this.star = star;
         this.feedbackStatus = FeedbackStatus.REGISTER;
     }
-    public void setProject(Project project){
+
+    public void setProject(Project project) {
         this.project = project;
         project.getFeedbackList().add(this);
     }
-    public void setEvalUser(User user){
+
+    public void setEvalUser(User user) {
         this.evalUser = user;
         user.getGaveFeedback().add(this);
     }
 
-    public void setAppraisedUser(User user){
+    public void setAppraisedUser(User user) {
         this.appraisedUser = user;
         user.getReceivedFeedback().add(this);
     }
 
-    public void cancel(){
+    public void cancel() {
         if (feedbackStatus != FeedbackStatus.CANCEL) {
             this.feedbackStatus = FeedbackStatus.CANCEL;
             this.deletedAt = LocalDateTime.now();

@@ -1,5 +1,6 @@
 package com.seoul.feedback.entity;
 
+import com.seoul.feedback.entity.enums.ProjectStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,12 +37,11 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Feedback> feedbackList = new ArrayList<>();
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
     private LocalDateTime deletedAt;
 

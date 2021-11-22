@@ -1,7 +1,7 @@
 package com.seoul.feedback.dto.response;
 
 import com.seoul.feedback.entity.Project;
-import com.seoul.feedback.entity.RegisterStatus;
+import com.seoul.feedback.entity.enums.RegisterStatus;
 import lombok.Builder;
 import lombok.Getter;
 

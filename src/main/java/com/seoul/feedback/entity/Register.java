@@ -1,5 +1,6 @@
 package com.seoul.feedback.entity;
 
+import com.seoul.feedback.entity.enums.RegisterStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,11 +30,11 @@ public class Register {
     @Enumerated(EnumType.STRING)
     private RegisterStatus status;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
-
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     private LocalDateTime deletedAt;
 
@@ -63,7 +64,6 @@ public class Register {
 
     //== 비즈니스 메서드 ==//
     public void cancel() {
-
         this.status = RegisterStatus.CANCEL;
         this.deletedAt = LocalDateTime.now();
     }
