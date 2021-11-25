@@ -4,7 +4,6 @@ import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.CommonResponse;
 import com.seoul.feedback.dto.response.ProjectResponse;
-import com.seoul.feedback.dto.response.ProjectSimpleResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
@@ -12,10 +11,8 @@ import com.seoul.feedback.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.server.EntityResponse;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

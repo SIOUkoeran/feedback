@@ -43,7 +43,6 @@ class FeedbackControllerTest extends BaseControllerTest {
     @Autowired
     ProjectRepository projectRepository;
 
-
     @Test
     public void getFeedbackList() throws Exception{
         User evalUser = User.builder()
