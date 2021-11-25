@@ -1,9 +1,9 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/42feedback?characterEncoding=UTF-8
-    username: root
-    password: 1234
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/42feedback?characterEncoding=UTF-8
+#    username: root
+#    password: 1234
 
   jpa:
     hibernate:
@@ -16,3 +16,9 @@ spring:
   client-secret: 6715a5b69e672988fbe0ae027994fe1d99f24d6ce4f99fb13714a9cb38e9856b
   redirect-uri: http://localhost:8080
   access-token: Bearer 88a210420bed7e7f2bb1dce8eacf360b5d3eb280e2491f1d5511062dd58107d1
+
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8

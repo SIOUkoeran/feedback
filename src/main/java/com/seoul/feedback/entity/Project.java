@@ -26,13 +26,13 @@ public class Project {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Register> registerList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade =  CascadeType.ALL)
     private List<Feedback> feedbackList = new ArrayList<>();
 
 

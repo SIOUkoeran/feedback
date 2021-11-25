@@ -14,4 +14,9 @@ public class UserResponse {
         this.userId = user.getId();
         this.login = user.getLogin();
     }
+    public class Project{
+        private Long userId;
+        private String login;
+        private boolean feedback;
+    }
 }
