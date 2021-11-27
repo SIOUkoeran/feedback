@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Register {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     @Column(name="_id")
     private Long id;
 
@@ -64,8 +64,10 @@ public class Register {
 
     //== 비즈니스 메서드 ==//
     public void cancel() {
-        this.setStatus(RegisterStatus.CANCEL);
-        this.deletedAt = LocalDateTime.now();
+        if (this.status != RegisterStatus.CANCEL) {
+            this.status = RegisterStatus.CANCEL;
+            this.deletedAt = LocalDateTime.now();
+        }
     }
 
 }

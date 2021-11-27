@@ -10,8 +10,9 @@ ext {
 }
 
 asciidoctor {
-	inputs.dir snippetsDir
 	dependsOn test
+	inputs.dir snippetsDir
+
 }
 
 group = 'com.42seoul.'
@@ -50,7 +51,7 @@ test {
 
 task copyDocument(type: Copy) {
 	dependsOn asciidoctor
-	from file("build/asciidoc/html5/")
+	from file("build/docs/asciidoc/")
 	into file("src/main/resources/static/docs")
 }
 

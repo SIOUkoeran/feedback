@@ -3,6 +3,7 @@ package com.seoul.feedback.service;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.ProjectResponse;
+import com.seoul.feedback.dto.response.ProjectSimpleResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.enums.ProjectStatus;
 import com.seoul.feedback.exception.EntityNotFoundException;
@@ -45,6 +46,13 @@ public class ProjectService {
                 () -> new EntityNotFoundException("Project not found")));
     }
 
+    public ProjectSimpleResponse findRegisteredProjectById(Long projectId){
+
+        return ProjectSimpleResponse.builder().project(this.projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found")
+        )).build();
+    }
+
     public Project update(Long projectId, ProjectUpdateRequest request) {
         Project project = projectRepository
                 .findById(projectId)
@@ -52,6 +60,7 @@ public class ProjectService {
         project.update(request.getName(), request.getDescription());
         return projectRepository.save(project);
     }
+
 
     @Transactional
     public void delete(Long projectId) {

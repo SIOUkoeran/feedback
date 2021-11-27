@@ -1,11 +1,14 @@
 package com.seoul.feedback.dto.request;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedbackCreateRequest {
 
     @NotNull

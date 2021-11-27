@@ -9,9 +9,11 @@ import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -29,6 +31,25 @@ public class ProjectController {
         registerService.saveAll(project.getId(), request.getUserList());
         return new ProjectResponse(project);
     }
+
+    @GetMapping(value = "/project/user/{userId}")
+    public ResponseEntity getProjectsByUser(@PathVariable(name = "userId") Long userId){
+
+        return ResponseEntity.ok().body(this.userService.findByUserId(userId).stream()
+                .map(registerResponse -> this.projectService
+                        .findRegisteredProjectById(registerResponse.getProjectId())
+                ).collect(Collectors.toList())) ;
+
+    }
+
+//    @GetMapping("/project/user/{projectId}/{userId}")
+//    public ProjectResponse.Users getProjectByUser(@PathVariable Long projectId,
+//                                            @PathVariable Long userId)
+//    {
+//
+//
+//    }
+
 
     @GetMapping(value = "/projects")
     public List<ProjectResponse> list() {

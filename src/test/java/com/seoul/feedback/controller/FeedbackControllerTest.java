@@ -3,6 +3,8 @@ package com.seoul.feedback.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import com.seoul.feedback.entity.Feedback;
@@ -41,8 +43,6 @@ class FeedbackControllerTest extends BaseControllerTest {
     @Autowired
     ProjectRepository projectRepository;
 
-
-
     @Test
     public void getFeedbackList() throws Exception{
         User evalUser = User.builder()
@@ -60,7 +60,7 @@ class FeedbackControllerTest extends BaseControllerTest {
         this.projectRepository.save(project);
         Feedback.createFeedback(evalUser, appraisedUser, "좋아요", 5, project);
         Feedback feedback = this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, "좋아요", 5, project));
-        mockMvc.perform(get("/v1/api/project/{projectId}/feedbacks", 1L)
+        mockMvc.perform(get("/api/v1/project/{projectId}/feedbacks", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -104,7 +104,7 @@ class FeedbackControllerTest extends BaseControllerTest {
         this.projectRepository.save(project);
 
         this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, "좋아요", 5, project));
-        mockMvc.perform(get("/v1/api/user/{userId}/evalFeedbacks", 1L)
+        mockMvc.perform(get("/api/v1/user/{userId}/evalFeedbacks", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -148,7 +148,7 @@ class FeedbackControllerTest extends BaseControllerTest {
         this.projectRepository.save(project);
 
         this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, "좋아요", 5, project));
-        mockMvc.perform(get("/v1/api/user/{userId}/appraisedFeedbacks", 2L)
+        mockMvc.perform(get("/api/v1/user/{userId}/appraisedFeedbacks", 2L)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -193,7 +193,7 @@ class FeedbackControllerTest extends BaseControllerTest {
         Project p = this.projectRepository.save(project);
         FeedbackCreateRequest feedbackCreateRequest = new
                 FeedbackCreateRequest(evalUser.getId(), appraisedUser.getId(), "무야호", 3);
-        mockMvc.perform(post("/v1/api/project/{projectId}/feedback", p.getId())
+        mockMvc.perform(post("/api/v1/project/{projectId}/feedback", p.getId())
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(feedbackCreateRequest)))
                 .andDo(print())

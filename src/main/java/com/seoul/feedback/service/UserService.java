@@ -5,6 +5,7 @@ import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.dto.response.RegisterResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.Register;
+import com.seoul.feedback.entity.RegisterStatus;
 import com.seoul.feedback.entity.User;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.exception.UserDuplicatedException;
@@ -52,11 +53,16 @@ public class UserService {
         Optional<User> user = userRepository.findById(userId);
         user.orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        return user.get().getRegisterList().stream().map(
-                register -> RegisterResponse.builder()
+        if (user.get().getRegisterList().size() == 0){
+            throw new EntityNotFoundException("Registered Project not found");
+        }
+        return user.get().getRegisterList().stream()
+                .filter(register -> register.getStatus() == RegisterStatus.REGISTER)
+                .map(register -> RegisterResponse.builder()
                         .register(register)
                         .build())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+                ;
 
     }
 }

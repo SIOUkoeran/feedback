@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/v1/api/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
@@ -42,6 +42,8 @@ public class FeedbackController {
         return ResponseEntity.ok().body(this.feedbackService.findFeedbackList(projectId));
     }
 
+
+
     @GetMapping("/user/{userId}/evalFeedbacks")
     public ResponseEntity findFeedbacksByEvalId(@PathVariable(name = "userId") Long userId) {
 
@@ -53,6 +55,7 @@ public class FeedbackController {
 
         return ResponseEntity.ok().body(this.feedbackService.feedbackAppraisedList(userId));
     }
+
 
 
 }
