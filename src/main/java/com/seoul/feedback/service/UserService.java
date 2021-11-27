@@ -1,14 +1,10 @@
 package com.seoul.feedback.service;
 
 import com.seoul.feedback.dto.request.UserCreateRequest;
-import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.dto.response.RegisterResponse;
-import com.seoul.feedback.entity.Project;
-import com.seoul.feedback.entity.Register;
-import com.seoul.feedback.entity.RegisterStatus;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.entity.enums.RegisterStatus;
 import com.seoul.feedback.exception.EntityNotFoundException;
-import com.seoul.feedback.exception.UserDuplicatedException;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
