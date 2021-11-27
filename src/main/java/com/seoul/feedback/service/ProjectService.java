@@ -5,7 +5,7 @@ import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.ProjectResponse;
 import com.seoul.feedback.dto.response.ProjectSimpleResponse;
 import com.seoul.feedback.entity.Project;
-import com.seoul.feedback.entity.ProjectStatus;
+import com.seoul.feedback.entity.enums.ProjectStatus;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;

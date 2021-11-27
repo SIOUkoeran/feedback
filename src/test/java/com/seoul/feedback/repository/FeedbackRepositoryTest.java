@@ -1,7 +1,7 @@
 package com.seoul.feedback.repository;
 
 import com.seoul.feedback.entity.Feedback;
-import com.seoul.feedback.entity.FeedbackStatus;
+import com.seoul.feedback.entity.enums.FeedbackStatus;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
 import org.junit.jupiter.api.Test;

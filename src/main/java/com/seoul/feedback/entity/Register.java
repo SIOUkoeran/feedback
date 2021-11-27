@@ -1,5 +1,6 @@
 package com.seoul.feedback.entity;
 
+import com.seoul.feedback.entity.enums.RegisterStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Register {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     @Column(name="_id")
     private Long id;
 
@@ -29,11 +30,11 @@ public class Register {
     @Enumerated(EnumType.STRING)
     private RegisterStatus status;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
-
     @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     private LocalDateTime deletedAt;
 
@@ -43,7 +44,7 @@ public class Register {
         user.getRegisterList().add(this);
     }
 
-    public void setProject(Project project) {
+    private void setProject(Project project) {
         this.project = project;
         project.getRegisterList().add(this);
     }

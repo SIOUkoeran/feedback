@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "_id")
     private Long id;
@@ -27,10 +28,10 @@ public class User {
     private List<Register> registerList = new ArrayList<>();
 
     @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "evalUser")
     private List<Feedback> gaveFeedback = new ArrayList<>();

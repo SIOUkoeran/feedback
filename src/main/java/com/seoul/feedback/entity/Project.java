@@ -1,5 +1,6 @@
 package com.seoul.feedback.entity;
 
+import com.seoul.feedback.entity.enums.ProjectStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Project {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "_id")
     private Long id;
@@ -35,12 +37,11 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade =  CascadeType.ALL)
     private List<Feedback> feedbackList = new ArrayList<>();
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
 
     private LocalDateTime deletedAt;
 
