@@ -9,8 +9,7 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
 
 42:
   user-code: 831e3446cad6d8322b48c77df90ce0353a9b7fca2c5a46358d1905686e98ce51
