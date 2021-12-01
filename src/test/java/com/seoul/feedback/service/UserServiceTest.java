@@ -12,7 +12,10 @@ import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
+import org.aspectj.lang.annotation.Before;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,16 +52,9 @@ public class UserServiceTest {
 
     @Autowired
     RegisterRepository registerRepository;
-    @BeforeEach
-    void setUp(){
-        this.userRepository.deleteAll();
-        this.projectRepository.deleteAll();
-        this.feedbackRepository.deleteAll();
-        this.registerRepository.deleteAll();
-    }
+
     @Test
     @Transactional
-    @Rollback(value = false)
     void getUserListByProjectId(){
 
         User user1 = User.builder()
@@ -91,7 +87,7 @@ public class UserServiceTest {
         Feedback saveFeedback = this.feedbackService.saveFeedback(new FeedbackCreateRequest(user1.getId(), user2.getId(), "this is feedback comment", 5), 1L);
         List<UserResponse.Project> userListByProjectId = this.userService.getUserListByProjectId(project1.getId(), user1.getId());
         UserResponse.Project project2 = userListByProjectId.get(0);
-        assertThat(userListByProjectId.get(0).isFeedback()).isTrue();
+
         assertThat(project2.getLogin()).isEqualTo("testUser2");
         assertThat(project2.getUserId()).isEqualTo(2L);
         System.out.println("userListByProjectId.size() = " + userListByProjectId.size());

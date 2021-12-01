@@ -5,7 +5,9 @@ import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.UserCreateRequest;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
+import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
 import com.seoul.feedback.service.FeedbackService;
 import com.seoul.feedback.service.ProjectService;
@@ -50,6 +52,13 @@ class ProjectControllerTest extends BaseControllerTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    FeedbackRepository feedbackRepository;
+
+    @Autowired
+    RegisterRepository registerRepository;
+
 
 
     @Test

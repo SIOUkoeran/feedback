@@ -3,6 +3,7 @@ package com.seoul.feedback.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
+import com.seoul.feedback.repository.RegisterRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpHeaders;
@@ -42,6 +43,10 @@ class FeedbackControllerTest extends BaseControllerTest {
 
     @Autowired
     ProjectRepository projectRepository;
+
+    @Autowired
+    RegisterRepository registerRepository;
+
 
     @Test
     public void getFeedbackList() throws Exception{

@@ -7,7 +7,10 @@ import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
 import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
+import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
+import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +35,8 @@ class FeedbackServiceTest {
     @Autowired
     ProjectRepository projectRepository;
 
-    @BeforeEach
-    void setUp(){
-        this.projectRepository.deleteAll();
-        this.feedbackRepository.deleteAll();
-        this.userRepository.deleteAll();
-    }
+    @Autowired
+    RegisterRepository registerRepository;
 
     @Test
     @Transactional

@@ -485,6 +485,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_fields_5">RESPONSE FIELDS:</a></li>
 </ul>
 </li>
+<li><a href="#_6_유저_별_피드백_유무_리스트_받기">6. 유저 별 피드백 유무 리스트 받기</a>
+<ul class="sectlevel2">
+<li><a href="#_request_pathparameters">REQUEST PATHPARAMETERS</a></li>
+<li><a href="#_request_curl_2">REQUEST CURL</a></li>
+<li><a href="#_response_fields_6">RESPONSE FIELDS</a></li>
+<li><a href="#_response_body">RESPONSE BODY</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -520,7 +528,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 281
+Content-Length: 282
 
 {
   "projectId" : 4,
@@ -535,7 +543,7 @@ Content-Length: 281
   },
   "message" : "무야호",
   "star" : 3,
-  "createdAt" : "2021-12-01T20:58:25.428232"
+  "createdAt" : "2021-12-02T01:02:16.4063115"
 }</code></pre>
 </div>
 </div>
@@ -749,8 +757,8 @@ Content-Length: 270
     "message" : "좋아요",
     "star" : 5
   } ],
-  "evalUserId" : 1,
-  "evalUserLogin" : "evalTest"
+  "evalUserLogin" : "evalTest",
+  "evalUserId" : 1
 }</code></pre>
 </div>
 </div>
@@ -1024,11 +1032,43 @@ Content-Length: 279
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_6_유저_별_피드백_유무_리스트_받기"><a class="link" href="#_6_유저_별_피드백_유무_리스트_받기">6. 유저 별 피드백 유무 리스트 받기</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Get</code> 요청을 통해 유저별 피드백 유무 리스트를 받을 수 있습니다.</p>
+</div>
+<div class="sect2">
+<h3 id="_request_pathparameters"><a class="link" href="#_request_pathparameters">REQUEST PATHPARAMETERS</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/path-parameters.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_curl_2"><a class="link" href="#_request_curl_2">REQUEST CURL</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/curl-request.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_fields_6"><a class="link" href="#_response_fields_6">RESPONSE FIELDS</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/response-fields.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_response_body"><a class="link" href="#_response_body">RESPONSE BODY</a></h3>
+<div class="paragraph">
+<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/response-body.adoc[]</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2021-11-26 03:03:55 +0900
+Last updated 2021-12-01 23:26:10 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
