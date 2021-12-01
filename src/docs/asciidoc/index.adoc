@@ -81,3 +81,20 @@ include::{snippets}/getProjectListByUserId/response-body.adoc[]
 
 === RESPONSE FIELDS:
 include::{snippets}/getProjectListByUserId/response-fields.adoc[]
+
+== 6. 유저 별 피드백 유무 리스트 받기
+
+`Get` 요청을 통해 유저별 피드백 유무 리스트를 받을 수 있습니다.
+
+=== REQUEST PATHPARAMETERS
+include::{snippets}/getUserFeedbackListByProjectId/path-parameters.adoc[]
+
+=== REQUEST CURL
+
+include::{snippets}/getUserFeedbackListByProjectId/curl-request.adoc[]
+
+=== RESPONSE FIELDS
+include::{snippets}/getUserFeedbackListByProjectId/response-fields.adoc[]
+
+=== RESPONSE BODY
+include::{snippets}/getUserFeedbackListByProjectId/response-body.adoc[]

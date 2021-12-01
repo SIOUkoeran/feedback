@@ -24,7 +24,7 @@ public class User {
     @Column
     private String login;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Register> registerList = new ArrayList<>();
 
     @CreationTimestamp

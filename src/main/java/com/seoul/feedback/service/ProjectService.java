@@ -10,8 +10,9 @@ import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Project save(ProjectCreateRequest request) {
         Project savedProject = projectRepository.save(Project.builder()
                 .name(request.getName())
@@ -53,6 +55,7 @@ public class ProjectService {
         )).build();
     }
 
+    @Transactional
     public Project update(Long projectId, ProjectUpdateRequest request) {
         Project project = projectRepository
                 .findById(projectId)

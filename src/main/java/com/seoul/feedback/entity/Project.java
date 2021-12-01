@@ -52,6 +52,21 @@ public class Project {
         this.status = ProjectStatus.CREATE;
     }
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", registerList=" + registerList +
+                ", status=" + status +
+                ", feedbackList=" + feedbackList +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deletedAt=" + deletedAt +
+                '}';
+    }
+
     //== 비즈니스 로직==//
     public Project update(String name, String description) {
         this.name = name;

@@ -2,17 +2,23 @@ package com.seoul.feedback.service;
 
 import com.seoul.feedback.dto.request.UserCreateRequest;
 import com.seoul.feedback.dto.response.RegisterResponse;
+import com.seoul.feedback.dto.response.UserResponse;
+import com.seoul.feedback.entity.Feedback;
+import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
 import com.seoul.feedback.entity.enums.RegisterStatus;
 import com.seoul.feedback.exception.EntityNotFoundException;
+import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +26,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RegisterRepository registerRepository;
+    private final ProjectRepository projectRepository;
 
     private boolean validateDuplicateUser(User user) {
         Optional<User> optionalUser = userRepository.findByLogin(user.getLogin());
@@ -45,6 +52,7 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<RegisterResponse> findByUserId(Long userId){
         Optional<User> user = userRepository.findById(userId);
         user.orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -60,5 +68,46 @@ public class UserService {
                 .collect(Collectors.toList())
                 ;
 
+    }
+
+
+    /**
+     *
+     * 리팩토링 필요
+     * 페치 조인으로 SQL 성능 개선 필요
+     * ... 테이블 비졍규화 필요 + 1
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<UserResponse.Project> getUserListByProjectId(Long projectId, Long userId){
+        Optional<Project> project = this.projectRepository.findById(projectId);
+        Optional<User> user = this.userRepository.findById(userId);
+
+        if (project.isEmpty())
+        {
+            throw new EntityNotFoundException("there is no registered project");
+        }
+        if (user.isEmpty())
+        {
+            throw new EntityNotFoundException("");
+        }
+        return project.get().getRegisterList()
+                .stream().map(register -> register.getUser())
+                .filter(user1 -> user1.getId() != userId)
+                .map(user1 -> {
+                    Optional<User> user2 = user1.getReceivedFeedback().stream()
+                            .filter(feedback -> feedback.getEvalUser().getId() == userId &&
+                                    feedback.getProject().getId() == projectId)
+                            .map(Feedback::getAppraisedUser)
+                            .findFirst();
+                    if (user2.isEmpty()){
+                        return new UserResponse.Project(user1.getId(), user1.getLogin(),false);
+                    }
+                    else{
+                        return new UserResponse.Project(user1.getId(), user1.getLogin(),true);
+                    }
+                }
+        ).collect(Collectors.toList());
     }
 }
