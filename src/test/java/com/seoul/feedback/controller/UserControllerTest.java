@@ -90,28 +90,28 @@ public class UserControllerTest extends BaseControllerTest {
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/project/{projectId}/user/{userId}/feedback-list", 1L, 1L)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print());
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("[0].userId").exists())
-//                .andExpect(jsonPath("[0].login").exists())
-//                .andExpect(jsonPath("[0].feedback").isBoolean())
-//                .andDo(document("getUserFeedbackListByProjectId",
-//                        requestHeaders(
-//                                headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 컨텐트 타입")
-//                        ),
-//                        pathParameters(
-//                                parameterWithName("projectId").description("요청 프로젝트 ID"),
-//                                parameterWithName("userId").description("요청 유저 ID")
-//                        ),
-//                        responseHeaders(
-//                                headerWithName(HttpHeaders.CONTENT_TYPE).description("결과 컨텐트 타입")
-//                        ),
-//                        relaxedResponseFields(
-//                                fieldWithPath("[0].userId").description("결과 유저 ID"),
-//                                fieldWithPath("[0].login").description("결과 유저 닉네임"),
-//                                fieldWithPath("[0].feedback").description("True : 유저에게 피드백을 남김, False : 피드백 남기지 않음.")
-//                        ))
-//                );
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("[0].userId").exists())
+                .andExpect(jsonPath("[0].login").exists())
+                .andExpect(jsonPath("[0].feedback").isBoolean())
+                .andDo(document("getUserFeedbackListByProjectId",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 컨텐트 타입")
+                        ),
+                        pathParameters(
+                                parameterWithName("projectId").description("요청 프로젝트 ID"),
+                                parameterWithName("userId").description("요청 유저 ID")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("결과 컨텐트 타입")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("[0].userId").description("결과 유저 ID"),
+                                fieldWithPath("[0].login").description("결과 유저 닉네임"),
+                                fieldWithPath("[0].feedback").description("True : 유저에게 피드백을 남김, False : 피드백 남기지 않음.")
+                        ))
+                );
 
     }
 }
