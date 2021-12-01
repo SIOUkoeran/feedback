@@ -57,6 +57,9 @@ public class UserControllerTest extends BaseControllerTest {
     @Autowired
     RegisterRepository registerRepository;
 
+//    @Autowired
+//    private DatabaseCleanup databaseCleanup;
+
     @Test
     void getUserListByProjectId() throws Exception {
         User user1 = User.builder()
