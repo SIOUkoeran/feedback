@@ -25,7 +25,7 @@ public class RegisterService {
 
 
     /* 등록 */
-    @Transactional
+
     public void save(Long projectId, String login) {
         Optional<User> optionalUser = userRepository.findByLogin(login);
         Optional<Project> optionalProject = projectRepository.findById(projectId);
@@ -33,17 +33,18 @@ public class RegisterService {
             Register register = Register.createRegister(
                     optionalUser.get(),
                     optionalProject.get());
-            Register saved = registerRepository.save(register);
+            registerRepository.save(register);
         }
     }
 
+    @Transactional
     public void saveAll(Long projectId, List<UserCreateRequest> requestList) {
         for (UserCreateRequest request : requestList) {
             save(projectId, request.getLogin());
         }
     }
 
-    @Transactional
+
     public void update(Long projectId, List<UserCreateRequest> requestList) {
         List<Register> registerList = registerRepository.findByProjectId(projectId);
         for (Register register : registerList) {

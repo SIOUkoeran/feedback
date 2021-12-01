@@ -1,74 +1,95 @@
 package com.seoul.feedback.service;
 
+import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
+import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.request.UserCreateRequest;
+import com.seoul.feedback.dto.response.UserResponse;
+import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
-import com.seoul.feedback.exception.UserDuplicatedException;
+import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
+import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
+import org.aspectj.lang.annotation.Before;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+@SpringBootTest
+public class UserServiceTest {
 
-    /*
-    실제 데이터베이스가 아닌 mock repository를 사용한다
-     */
-
-    @InjectMocks // 테스트 대상
+    @Autowired
     UserService userService;
 
-    @Mock // 테스트 도와주는 의존성
+    @Autowired
+    ProjectService projectService;
+
+    @Autowired
+    RegisterService registerService;
+    @Autowired
+    FeedbackService feedbackService;
+    @Autowired
+    ProjectRepository projectRepository;
+    @Autowired
     UserRepository userRepository;
 
-    private User user() {
-        return User.builder()
-                .login("seokim")
-                .build();
-    }
+    @Autowired
+    FeedbackRepository feedbackRepository;
+
+    @Autowired
+    RegisterRepository registerRepository;
 
     @Test
-    @DisplayName("repository가 null이 아님")
-    public void projectRepository_not_null() {
-        assertNotNull(userRepository);
-    }
+    @Transactional
+    void getUserListByProjectId(){
 
-
-    @Test
-    @DisplayName("login으로 유저조회")
-    public void 유저_조회_with_login() {
-
-        // given 테스트 하기 전 상태 or 조건 설명
         User user1 = User.builder()
-                .login("eun-park")
+                .login("testUser1")
                 .build();
 
-        List<User> userList = new ArrayList<>();
-        userList.add(user1);
+        User user2 = User.builder()
+                .login("testUser2")
+                .build();
 
-        //doReturn(user1).when(userRepository).findByLogin(any());
+        User user3 = User.builder()
+                .login("testUser3")
+                .build();
+        this.userRepository.save(user1);
+        this.userRepository.save(user2);
+        this.userRepository.save(user3);
 
-        // when
-        userRepository.save(User.builder().login("eun-park").build());
+        Project project = Project.builder()
+                .description("testProject")
+                .name("testProjectName")
+                .build();
+        UserCreateRequest userCreateRequest = new UserCreateRequest(user1.getLogin());
+        UserCreateRequest userCreateRequest1 = new UserCreateRequest(user2.getLogin());
+        UserCreateRequest userCreateRequest2 = new UserCreateRequest(user3.getLogin());
+        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest("testProject", "testProjectName",Arrays.asList(userCreateRequest1, userCreateRequest, userCreateRequest2));
+        ProjectCreateRequest projectCreateRequest = new ProjectCreateRequest("testProject", "testProject",Arrays.asList(userCreateRequest1, userCreateRequest, userCreateRequest2));
+        Project project1 = this.projectService.save(projectCreateRequest);
+        Project savedProject = this.projectService.update(project1.getId(),projectUpdateRequest);
+        this.registerService.saveAll(savedProject.getId(), Arrays.asList(userCreateRequest1, userCreateRequest, userCreateRequest2));
+        Feedback saveFeedback = this.feedbackService.saveFeedback(new FeedbackCreateRequest(user1.getId(), user2.getId(), "this is feedback comment", 5), 1L);
+        List<UserResponse.Project> userListByProjectId = this.userService.getUserListByProjectId(project1.getId(), user1.getId());
+        UserResponse.Project project2 = userListByProjectId.get(0);
 
-        //then
-
-
+        assertThat(project2.getLogin()).isEqualTo("testUser2");
+        assertThat(project2.getUserId()).isEqualTo(2L);
+        System.out.println("userListByProjectId.size() = " + userListByProjectId.size());
     }
 }

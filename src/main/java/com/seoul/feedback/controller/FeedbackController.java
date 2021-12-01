@@ -37,6 +37,7 @@ public class FeedbackController {
         return ResponseEntity.ok().body(feedbackResponse);
     }
 
+
     @GetMapping("/project/{projectId}/feedbacks")
     public ResponseEntity getFeedbackListByProject(@PathVariable Long projectId) {
         return ResponseEntity.ok().body(this.feedbackService.findFeedbackList(projectId));

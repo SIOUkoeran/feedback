@@ -33,10 +33,10 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "evalUser")
+    @OneToMany(mappedBy = "evalUser", cascade = CascadeType.ALL)
     private List<Feedback> gaveFeedback = new ArrayList<>();
 
-    @OneToMany(mappedBy = "appraisedUser")
+    @OneToMany(mappedBy = "appraisedUser", cascade = CascadeType.ALL)
     private List<Feedback> receivedFeedback = new ArrayList<>();
 
     @Builder

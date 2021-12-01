@@ -28,13 +28,13 @@ public class Project {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project",cascade = CascadeType.ALL)
     private List<Register> registerList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
 
-    @OneToMany(mappedBy = "project", cascade =  CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Feedback> feedbackList = new ArrayList<>();
 
     @CreationTimestamp
@@ -50,6 +50,21 @@ public class Project {
         this.name = name;
         this.description = description;
         this.status = ProjectStatus.CREATE;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", registerList=" + registerList +
+                ", status=" + status +
+                ", feedbackList=" + feedbackList +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deletedAt=" + deletedAt +
+                '}';
     }
 
     //== 비즈니스 로직==//
