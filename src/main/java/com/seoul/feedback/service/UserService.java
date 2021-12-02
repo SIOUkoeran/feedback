@@ -93,7 +93,9 @@ public class UserService {
             throw new EntityNotFoundException("");
         }
         return project.get().getRegisterList()
-                .stream().map(register -> register.getUser())
+                .stream()
+                .filter(register -> register.getStatus() == RegisterStatus.REGISTER)
+                .map(register -> register.getUser())
                 .filter(user1 -> user1.getId() != userId)
                 .map(user1 -> {
                     Optional<User> user2 = user1.getReceivedFeedback().stream()
