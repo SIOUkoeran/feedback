@@ -3,7 +3,7 @@ package com.seoul.feedback.controller;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.CommonResponse;
-import com.seoul.feedback.dto.response.ProjectResponse;
+import com.seoul.feedback.dto.response.project.ProjectResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;

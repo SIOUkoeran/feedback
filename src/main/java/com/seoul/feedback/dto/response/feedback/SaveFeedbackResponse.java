@@ -1,4 +1,4 @@
-package com.seoul.feedback.dto.response;
+package com.seoul.feedback.dto.response.feedback;
 
 import com.seoul.feedback.entity.Feedback;
 import lombok.Builder;
