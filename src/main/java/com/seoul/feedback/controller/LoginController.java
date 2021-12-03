@@ -1,7 +1,6 @@
 package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.Token;
-import com.seoul.feedback.dto.Token42;
 import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
