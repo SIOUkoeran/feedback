@@ -9,24 +9,24 @@ import com.seoul.feedback.entity.User;
 import com.seoul.feedback.entity.enums.RegisterStatus;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
-import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
+import com.seoul.feedback.security.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-    private final RegisterRepository registerRepository;
     private final ProjectRepository projectRepository;
+    private final HttpSession httpSession;
 
     private boolean validateDuplicateUser(User user) {
         Optional<User> optionalUser = userRepository.findByLogin(user.getLogin());
@@ -111,5 +111,14 @@ public class UserService {
                     }
                 }
         ).collect(Collectors.toList());
+    }
+
+    public User findBySessionUser(HttpSession httpSession) {
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        Optional<User> findUser = this.userRepository.findByLogin(sessionUser.getLogin());
+        if (findUser.isEmpty()){
+            throw new EntityNotFoundException("user not Found! login is something wrong!");
+        }
+        return findUser.get();
     }
 }

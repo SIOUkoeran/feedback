@@ -20,3 +20,5 @@ spring:
   client-id: 13af0d03ad0ae1beba20c1664086ba7b7933f508a37734296cdc7a03f3dcc3b8
   client-secret: 22f4592cb410bdaa230f6b6df0fdc34ef87b6e774875d21a4173cb13c85fdb5f
   redirect-uri: http://localhost:8080/api/v1/user/login
+  client-authentication-method: POST
+  

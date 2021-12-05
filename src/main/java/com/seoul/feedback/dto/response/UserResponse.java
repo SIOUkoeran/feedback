@@ -15,6 +15,10 @@ public class UserResponse {
         this.userId = user.getId();
         this.login = user.getLogin();
     }
+    public UserResponse(String login, Long id){
+        this.login = login;
+        this.userId = id;
+    }
 
     @Getter
     @Setter

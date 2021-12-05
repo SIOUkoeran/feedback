@@ -4,7 +4,8 @@ spring:
 #    url: jdbc:mysql://localhost:3306/42feedback?characterEncoding=UTF-8
 #    username: root
 #    password: 1234
-
+  profiles:
+    include: oauth
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,5 +18,7 @@ spring:
   client-secret: 6715a5b69e672988fbe0ae027994fe1d99f24d6ce4f99fb13714a9cb38e9856b
   redirect-uri: http://localhost:8080
   access-token: Bearer 88a210420bed7e7f2bb1dce8eacf360b5d3eb280e2491f1d5511062dd58107d1
+42seoul:
   id: 13af0d03ad0ae1beba20c1664086ba7b7933f508a37734296cdc7a03f3dcc3b8
   secret: 22f4592cb410bdaa230f6b6df0fdc34ef87b6e774875d21a4173cb13c85fdb5f
+  redirect-uri: http://localhost:8080/api/v1/user/login
