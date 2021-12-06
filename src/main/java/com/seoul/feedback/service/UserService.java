@@ -11,6 +11,7 @@ import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
 import com.seoul.feedback.security.SessionUser;
+import com.seoul.feedback.service.session.OAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
-    private final HttpSession httpSession;
+    private final OAuth2UserService oAuth2UserService;
 
     private boolean validateDuplicateUser(User user) {
         Optional<User> optionalUser = userRepository.findByLogin(user.getLogin());
@@ -113,12 +114,12 @@ public class UserService {
         ).collect(Collectors.toList());
     }
 
-    public User findBySessionUser(HttpSession httpSession) {
-        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-        Optional<User> findUser = this.userRepository.findByLogin(sessionUser.getLogin());
-        if (findUser.isEmpty()){
-            throw new EntityNotFoundException("user not Found! login is something wrong!");
-        }
-        return findUser.get();
-    }
+//    public User findBySessionUser(HttpSession httpSession) {
+//        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+//        Optional<User> findUser = this.userRepository.findByLogin(sessionUser.getLogin());
+//        if (findUser.isEmpty()){
+//            throw new EntityNotFoundException("user not Found! login is something wrong!");
+//        }
+//        return findUser.get();
+//    }
 }

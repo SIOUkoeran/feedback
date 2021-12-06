@@ -2,17 +2,16 @@ package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.Token;
 import com.seoul.feedback.dto.response.UserResponse;
-import com.seoul.feedback.entity.User;
 import com.seoul.feedback.security.SessionUser;
 import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
+import com.seoul.feedback.service.session.OAuth2SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -31,11 +30,13 @@ public class LoginController {
     private final RegisterService registerService;
     private final UserService userService;
     private final HttpSession httpSession;
+    private final OAuth2SessionService oAuth2SessionService;
 
     @Autowired
-    public LoginController(RegisterService registerService, UserService userService, HttpSession httpSession) {
+    public LoginController(RegisterService registerService, UserService userService, HttpSession httpSession,  OAuth2SessionService oAuth2SessionService) {
         this.registerService = registerService;
         this.userService = userService;
+        this.oAuth2SessionService =  oAuth2SessionService;
         this.httpSession = httpSession;
     }
 
@@ -43,7 +44,7 @@ public class LoginController {
     @GetMapping("/login")
     public ResponseEntity cadetLogin(HttpSession session) throws IOException {
         return ResponseEntity.ok(UserResponse.builder()
-                .user(userService.findBySessionUser(httpSession))
+                .user(oAuth2SessionService.findBySessionUser(httpSession))
                 .build());
     }
 
