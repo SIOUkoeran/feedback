@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class SessionUserService implements OAuth2UserService{
+public class SessionUserService implements OAuth2SessionService{
 
     private final UserRepository userRepository;
 

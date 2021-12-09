@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.repository.RegisterRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import com.seoul.feedback.entity.Feedback;

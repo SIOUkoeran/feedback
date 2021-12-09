@@ -35,7 +35,6 @@ public class ProjectController {
 
     @GetMapping(value = "/project/user/{userId}")
     public ResponseEntity getProjectsByUser(@PathVariable(name = "userId") Long userId){
-
         return ResponseEntity.ok().body(this.userService.findByUserId(userId).stream()
                 .map(registerResponse -> this.projectService
                         .findRegisteredProjectById(registerResponse.getProjectId())

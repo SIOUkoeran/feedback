@@ -7,7 +7,6 @@ import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
 import com.seoul.feedback.service.session.OAuth2SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,30 +18,18 @@ import java.io.IOException;
 @RequestMapping("/api/v1")
 public class LoginController {
 
-
-    @Value("${42seoul.id}")
-    private String clientId;
-    @Value("${42seoul.secret}")
-    private String secret;
-    @Value("${42seoul.redirect-uri}")
-    private String redirectUri;
-
-    private final RegisterService registerService;
-    private final UserService userService;
-    private final HttpSession httpSession;
     private final OAuth2SessionService oAuth2SessionService;
+    private final HttpSession httpSession;
 
     @Autowired
-    public LoginController(RegisterService registerService, UserService userService, HttpSession httpSession,  OAuth2SessionService oAuth2SessionService) {
-        this.registerService = registerService;
-        this.userService = userService;
+    public LoginController(OAuth2SessionService oAuth2SessionService, HttpSession httpSession) {
         this.oAuth2SessionService =  oAuth2SessionService;
         this.httpSession = httpSession;
     }
 
 
     @GetMapping("/login")
-    public ResponseEntity cadetLogin(HttpSession session) throws IOException {
+    public ResponseEntity cadetLogin() throws IOException {
         return ResponseEntity.ok(UserResponse.builder()
                 .user(oAuth2SessionService.findBySessionUser(httpSession))
                 .build());
@@ -66,14 +53,4 @@ public class LoginController {
 //
 //        return responseEntity.getBody() ;
 //    }
-@GetMapping("/user/login")
-public String getLoginAccess(HttpSession httpSession){
-    SessionUser user = (SessionUser) httpSession.getAttribute("user");
-    return user.getLogin().toString();
-}
-    @GetMapping("/user/login/success")
-    public String success(Token token){
-        return token.getAccess_token();
-    }
-
 }
