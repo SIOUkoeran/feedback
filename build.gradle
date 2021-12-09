@@ -38,7 +38,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	implementation 'org.springframework.restdocs:spring-restdocs-asciidoctor'
-
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'

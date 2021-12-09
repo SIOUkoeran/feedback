@@ -1,5 +1,6 @@
 package com.seoul.feedback.entity;
 
+import com.seoul.feedback.entity.enums.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +41,27 @@ public class User {
     @OneToMany(mappedBy = "appraisedUser", cascade = CascadeType.ALL)
     private List<Feedback> receivedFeedback = new ArrayList<>();
 
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Builder
-    public User(String login) {
+    public User(String login, Role role) {
         this.login = login;
+        this.role = role;
+    }
+
+    public User(String login, Long id){
+        this.login = login;
+        this.id = id;
+    }
+    public User(String login, Long id, Role role){
+        this.login = login;
+        this.id = id;
+        this.role = role;
+    }
+    public String getRoleKey() {
+        return role.getKey();
     }
 }

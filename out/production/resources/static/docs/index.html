@@ -543,7 +543,7 @@ Content-Length: 282
   },
   "message" : "무야호",
   "star" : 3,
-  "createdAt" : "2021-12-02T01:02:16.4063115"
+  "createdAt" : "2021-12-03T00:29:45.0262842"
 }</code></pre>
 </div>
 </div>
@@ -757,8 +757,8 @@ Content-Length: 270
     "message" : "좋아요",
     "star" : 5
   } ],
-  "evalUserLogin" : "evalTest",
-  "evalUserId" : 1
+  "evalUserId" : 1,
+  "evalUserLogin" : "evalTest"
 }</code></pre>
 </div>
 </div>
@@ -960,7 +960,7 @@ Content-Length: 279
 <h3 id="_request_curl"><a class="link" href="#_request_curl">REQUEST CURL</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/v1/project/user/9' -i -X GET \
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/v1/project/user/1' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8'</code></pre>
 </div>
 </div>
@@ -970,11 +970,11 @@ Content-Length: 279
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">[ {
-  "projectId" : 5,
+  "projectId" : 1,
   "name" : "Project1",
   "description" : "projectDescription"
 }, {
-  "projectId" : 6,
+  "projectId" : 2,
   "name" : "project2",
   "description" : "projectDescription"
 } ]</code></pre>
@@ -1040,26 +1040,87 @@ Content-Length: 279
 </div>
 <div class="sect2">
 <h3 id="_request_pathparameters"><a class="link" href="#_request_pathparameters">REQUEST PATHPARAMETERS</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/path-parameters.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /api/v1/project/{projectId}/user/{userId}/feedback-list</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>projectId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 프로젝트 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">요청 유저 ID</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_request_curl_2"><a class="link" href="#_request_curl_2">REQUEST CURL</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/curl-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/v1/project/1/user/1/feedback-list' -i -X GET \
+    -H 'Content-Type: application/json;charset=UTF-8'</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_response_fields_6"><a class="link" href="#_response_fields_6">RESPONSE FIELDS</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/response-fields.adoc[]</p>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 유저 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].login</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 유저 닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].feedback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">True : 유저에게 피드백을 남김, False : 피드백 남기지 않음.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_response_body"><a class="link" href="#_response_body">RESPONSE BODY</a></h3>
-<div class="paragraph">
-<p>Unresolved directive in index.adoc - include::./build/generated-snippets/getUserFeedbackListByProjectId/response-body.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">[ {
+  "userId" : 2,
+  "login" : "testUser2",
+  "feedback" : true
+}, {
+  "userId" : 3,
+  "login" : "testUser3",
+  "feedback" : false
+} ]</code></pre>
+</div>
 </div>
 </div>
 </div>

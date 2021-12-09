@@ -3,7 +3,7 @@ package com.seoul.feedback.controller;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.CommonResponse;
-import com.seoul.feedback.dto.response.ProjectResponse;
+import com.seoul.feedback.dto.response.project.ProjectResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,6 @@ public class ProjectController {
 
     @GetMapping(value = "/project/user/{userId}")
     public ResponseEntity getProjectsByUser(@PathVariable(name = "userId") Long userId){
-
         return ResponseEntity.ok().body(this.userService.findByUserId(userId).stream()
                 .map(registerResponse -> this.projectService
                         .findRegisteredProjectById(registerResponse.getProjectId())

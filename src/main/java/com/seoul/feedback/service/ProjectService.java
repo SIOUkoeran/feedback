@@ -2,8 +2,8 @@ package com.seoul.feedback.service;
 
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.ProjectUpdateRequest;
-import com.seoul.feedback.dto.response.ProjectResponse;
-import com.seoul.feedback.dto.response.ProjectSimpleResponse;
+import com.seoul.feedback.dto.response.project.ProjectResponse;
+import com.seoul.feedback.dto.response.project.ProjectSimpleResponse;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.enums.ProjectStatus;
 import com.seoul.feedback.exception.EntityNotFoundException;
