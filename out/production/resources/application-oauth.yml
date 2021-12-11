@@ -17,10 +17,3 @@ spring:
             user-info-uri: https://api.intra.42.fr/v2/me
             token-uri: https://api.intra.42.fr/oauth/token
             user-name-attribute: id
-app:
-  auth:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
-    tokenExpirationMsec: 1m
-    oauth2:
-      authorizationRedirectUris:
-        - http: //localhost:3000/oauth2/redirect

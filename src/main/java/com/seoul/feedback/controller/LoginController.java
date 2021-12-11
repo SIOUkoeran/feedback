@@ -48,23 +48,22 @@ public class LoginController {
                 .build());
     }
 
-    @GetMapping("/user/login")
-    public Token getLoginAccess(@RequestParam(name = "code") String code){
-
-        System.out.println("code = " + code);
-        String requestQuery =
-                "grant_type=" + "authorization_code" +
-                        "&" + "client_id=" + clientId +
-                        "&" + "client_secret=" + clientSecret +
-                        "&" + "code=" + code +
-                        "&" + "redirect_uri=" + redirectUri;
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-        ResponseEntity<Token> responseEntity = restTemplate.exchange("https://api.intra.42.fr/oauth/token?" + requestQuery, HttpMethod.POST,
-                new HttpEntity(httpHeaders), Token.class);
-
-        return responseEntity.getBody() ;
-    }
+//    @GetMapping("/user/login")
+//    public Token getLoginAccess(@RequestParam(name = "code") String code){
+//
+//        String requestQuery =
+//                "grant_type=" + "authorization_code" +
+//                        "&" + "client_id=" + clientId +
+//                        "&" + "client_secret=" + secret +
+//                        "&" + "code=" + code +
+//                        "&" + "redirect_uri=" + redirectUri;
+//
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        RestTemplate restTemplate = new RestTemplate();
+//        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+//        ResponseEntity<Token> responseEntity = restTemplate.exchange("https://api.intra.42.fr/oauth/token?" + requestQuery, HttpMethod.POST,
+//                new HttpEntity(httpHeaders), Token.class);
+//
+//        return responseEntity.getBody() ;
+//    }
 }
