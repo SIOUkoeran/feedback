@@ -8,7 +8,7 @@ spring:
     include: oauth
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
 
 42:
@@ -21,3 +21,5 @@ server:
   servlet:
     encoding:
       charset: utf-8
+    session:
+      timeout: 10m

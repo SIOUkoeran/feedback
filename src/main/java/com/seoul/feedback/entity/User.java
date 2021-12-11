@@ -35,6 +35,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+
     @OneToMany(mappedBy = "evalUser", cascade = CascadeType.ALL)
     private List<Feedback> gaveFeedback = new ArrayList<>();
 

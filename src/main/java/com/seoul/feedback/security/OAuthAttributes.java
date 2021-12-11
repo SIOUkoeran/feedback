@@ -15,6 +15,7 @@ public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String login;
+
     @Builder
     public  OAuthAttributes(Map<String, Object> attributes,
                             String nameAttributeKey,
