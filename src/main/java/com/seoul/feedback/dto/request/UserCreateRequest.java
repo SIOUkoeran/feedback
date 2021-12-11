@@ -7,6 +7,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserCreateRequest {
+
     private String login;
 
     public UserCreateRequest(String login) {

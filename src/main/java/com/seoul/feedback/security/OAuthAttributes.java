@@ -32,6 +32,7 @@ public class OAuthAttributes {
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
+
     }
     public User toEntity() {
         return new User(login ,Role.STUDENT);
