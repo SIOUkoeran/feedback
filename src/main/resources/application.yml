@@ -9,7 +9,7 @@ spring:
     url: jdbc:h2:tcp://localhost/~/jpashop2
     username: sa
     password:
-    initialization-mode: always
+
   profiles:
     include: oauth
   jpa:
