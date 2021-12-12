@@ -7,6 +7,7 @@ import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
 import com.seoul.feedback.entity.enums.RegisterStatus;
+import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
@@ -39,6 +40,7 @@ public class UserService {
     public void save(UserCreateRequest request) {
         User user = User.builder()
                 .login(request.getLogin())
+                .role(Role.STUDENT)
                 .build();
         if (!validateDuplicateUser(user)) {
             userRepository.save(user);
