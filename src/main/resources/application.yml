@@ -26,8 +26,6 @@ spring:
   access-token: Bearer 88a210420bed7e7f2bb1dce8eacf360b5d3eb280e2491f1d5511062dd58107d1
 server:
   servlet:
-    encoding:
-      force: true
     session:
       timeout: 30m
       cookie:
