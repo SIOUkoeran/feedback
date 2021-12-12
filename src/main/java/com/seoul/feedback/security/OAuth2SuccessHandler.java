@@ -2,8 +2,8 @@ package com.seoul.feedback.security;
 
 import com.seoul.feedback.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +25,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String sessionId= request.getSession(false).getId();
-        String targetUri = "localhost:3000";
+        String targetUri = "http://3.34.88.141/project";
 
-        Cookie cookie = new Cookie("JSESSIONID", sessionId);
-        cookie.setPath("/");
-        cookie.setMaxAge(300);
-        cookie.setHttpOnly(true);
-        response.addCookie(cookie);
-        getRedirectStrategy().sendRedirect(request, response, targetUri);
+        System.out.println("request.getSession().getId() = " + request.getSession().getId());
+        response.addHeader("Access-Control-Allow-Credentials", "true");
+        response.addHeader("Access-Control-Allow-Origin", "http://3.34.88.141");
+        response.sendRedirect(targetUri);
     }
 }
