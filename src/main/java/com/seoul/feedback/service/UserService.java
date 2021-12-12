@@ -75,13 +75,12 @@ public class UserService {
     /**
      *
      * 리팩토링 필요
-     * 페치 조인으로 SQL 성능 개선 필요
-     * ... 테이블 비졍규화 필요 + 1
+     * 프로젝트에 등록된 유저
      *
      * @return
      */
-    @Transactional(readOnly = true)
-    public List<UserResponse.Project> getUserListByProjectId(Long projectId, Long userId){
+
+    private List<UserResponse.Project> getUserFeedbackListByProjectId(Long projectId, Long userId){
         Optional<Project> project = this.projectRepository.findById(projectId);
         Optional<User> user = this.userRepository.findById(userId);
 
@@ -112,6 +111,10 @@ public class UserService {
                     }
                 }
         ).collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public UserResponse.ProjectWithUserId getFeedbackListByProjectId(Long projectId, Long userId){
+        return new UserResponse.ProjectWithUserId(userId, getUserFeedbackListByProjectId(userId, projectId));
     }
 
 //    public User findBySessionUser(HttpSession httpSession) {

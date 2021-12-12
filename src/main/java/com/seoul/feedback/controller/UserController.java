@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping(value = "/project/{projectId}/user/{userId}/feedback-list")
     public ResponseEntity getUserListByProjectId (@PathVariable(name ="projectId") Long projectId,
                                                   @PathVariable(name="userId") Long userId){
-        return ResponseEntity.ok().body(this.userService.getUserListByProjectId(projectId, userId));
+        return ResponseEntity.ok().body(this.userService.getFeedbackListByProjectId(projectId, userId));
     }
 }
 

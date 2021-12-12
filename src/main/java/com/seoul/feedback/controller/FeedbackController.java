@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/api/v1/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/api/v1/", produces = "application/json; charset=UTF-8")
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
@@ -26,6 +26,7 @@ public class FeedbackController {
 
     @PostMapping("/project/{projectId}/feedback")
     public ResponseEntity createFeedback(@PathVariable(name = "projectId") Long projectId, @RequestBody @Valid FeedbackCreateRequest feedbackCreateRequest) {
+
         if (feedbackCreateRequest.getAppraisedUserId() == feedbackCreateRequest.getEvalUserId()){
             throw new CreateFeedbackUserIdDuplicateException("You cannot evaluate yourself.");
         }
@@ -33,7 +34,6 @@ public class FeedbackController {
                 .feedback(this.feedbackService.saveFeedback(feedbackCreateRequest, projectId))
                 .projectId(projectId)
                 .build(), HttpStatus.CREATED);
-
     }
 
     @GetMapping("/feedback/{feedbackId}")
@@ -44,13 +44,10 @@ public class FeedbackController {
         return ResponseEntity.ok().body(feedbackResponse);
     }
 
-
     @GetMapping("/project/{projectId}/feedbacks")
     public ResponseEntity getFeedbackListByProject(@PathVariable Long projectId) {
         return ResponseEntity.ok().body(this.feedbackService.findFeedbackList(projectId));
     }
-
-
 
     @GetMapping("/user/{userId}/evalFeedbacks")
     public ResponseEntity findFeedbacksByEvalId(@PathVariable(name = "userId") Long userId) {
