@@ -9,13 +9,14 @@ import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = "application/json; charset=UTF-8")
+@RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class ProjectController {
 

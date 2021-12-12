@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/api/v1/", produces = "application/json; charset=UTF-8")
+@RequestMapping(value = "/api/v1/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
