@@ -57,3 +57,4 @@ build/
 
 application.yml
 application-test.yml
+application-oauth.yml
