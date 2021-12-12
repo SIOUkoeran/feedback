@@ -135,7 +135,7 @@ class ProjectControllerTest extends BaseControllerTest {
 
         UserCreateRequest userCreateRequest = new UserCreateRequest("mkim3");
         UserCreateRequest userCreateRequest1 = new UserCreateRequest("mkim2");
-        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest("projectName", "projectDescription", Arrays.asList(userCreateRequest, userCreateRequest1));
+        ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest("projectName", "프로젝트 한글 잘 나오나요?", Arrays.asList(userCreateRequest, userCreateRequest1));
         Project project = new Project("project1", "projectDescription");
         this.projectRepository.save(project);
         
