@@ -8,6 +8,7 @@ import com.seoul.feedback.dto.response.feedback.FeedbackResponse;
 import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.exception.UserDuplicatedException;
 import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;

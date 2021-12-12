@@ -3,6 +3,7 @@ package com.seoul.feedback.controller;
 import com.seoul.feedback.dto.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -31,6 +32,10 @@ public class AllUserController {
     @Value("${42.access-token}")
     private String accessToken;
 
+    @GetMapping("/test")
+    public String testController(){
+        return "testOk";
+    }
 
     public AllUserController(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("https://api.intra.42.fr/v2").build();

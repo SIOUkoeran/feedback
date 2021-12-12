@@ -3,8 +3,11 @@ package com.seoul.feedback.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
+import com.seoul.feedback.entity.enums.Role;
+import com.seoul.feedback.exception.CreateFeedbackUserIdDuplicateException;
 import com.seoul.feedback.repository.RegisterRepository;
 
+import org.junit.jupiter.api.DisplayName;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import com.seoul.feedback.entity.Feedback;
@@ -15,6 +18,7 @@ import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -48,6 +52,7 @@ class FeedbackControllerTest extends BaseControllerTest {
 
 
     @Test
+    @WithMockUser(roles = {"STUDENT"})
     public void getFeedbackList() throws Exception{
         User evalUser = User.builder()
                 .login("evalTest")
@@ -91,6 +96,7 @@ class FeedbackControllerTest extends BaseControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"STUDENT"})
     void getEvalUserFeedback() throws Exception{
         User evalUser = User.builder()
                 .login("evalTest")
@@ -135,13 +141,16 @@ class FeedbackControllerTest extends BaseControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"STUDENT"})
     void getAppraisedUserFeedbackList() throws Exception{
         User evalUser = User.builder()
                 .login("evalTest")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(evalUser);
         System.out.println("evalUser.getId() = " + evalUser.getId());
         User appraisedUser = User.builder()
+                .role(Role.STUDENT)
                 .login("appraiseTest")
                 .build();
         this.userRepository.save(appraisedUser);
@@ -180,14 +189,17 @@ class FeedbackControllerTest extends BaseControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"STUDENT"})
     void createFeedback() throws Exception {
         User evalUser = User.builder()
                 .login("evalTest")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(evalUser);
 
         User appraisedUser = User.builder()
                 .login("appraiseTest")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(appraisedUser);
         Project project = Project.builder()
@@ -228,5 +240,18 @@ class FeedbackControllerTest extends BaseControllerTest {
                         )
                         ))
         ;
+    }
+
+    @Test
+    @DisplayName("피드백 생성시 평가 아이디와 피평가 아이디 같을 때")
+    @WithMockUser(roles = {"STUDENT"})
+    void createFeedbackWithSameUserId() throws Exception {
+
+        FeedbackCreateRequest feedbackCreateRequest = new FeedbackCreateRequest(1L, 1L, "same userId", 5);
+        mockMvc.perform(post("/api/v1/project/{projectId}/feedback",1L)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(feedbackCreateRequest)))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 }

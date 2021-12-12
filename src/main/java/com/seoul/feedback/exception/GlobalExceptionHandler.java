@@ -22,4 +22,6 @@ public class GlobalExceptionHandler {
         System.out.println("handleEntityNotFoundException");
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+
 }

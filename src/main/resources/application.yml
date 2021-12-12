@@ -27,7 +27,7 @@ spring:
 server:
   servlet:
     encoding:
-      charset: utf-8
+      force: true
     session:
       timeout: 30m
       cookie:
