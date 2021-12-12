@@ -5,6 +5,7 @@ import com.seoul.feedback.dto.response.feedback.FeedbackProjectIdResponse;
 import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
@@ -42,9 +43,13 @@ class FeedbackServiceTest {
     @Transactional
     void saveFeedback(){
         User eval = User.builder()
-                .login("evalUser").build();
+                .login("evalUser")
+                .role(Role.STUDENT)
+                .build();
         User appraise = User.builder()
-                .login("appraisedUser").build();
+                .role(Role.STUDENT)
+                .login("appraisedUser")
+                .build();
         User evalUser = this.userRepository.save(eval);
         User appraisedUser = this.userRepository.save(appraise);
         String message = "열정적인 리뷰 감사합니다!.";
@@ -80,12 +85,14 @@ class FeedbackServiceTest {
         this.projectRepository.save(project);
         User evalUser = User.builder()
                 .login("eval")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(evalUser);
         String message = "열정적인 리뷰 감사합니다!.길이맞추기용용용용용용용용용용";
 
         for (int i = 0; i < 10; i++) {
              User appraisedUser = User.builder()
+                     .role(Role.STUDENT)
                          .login("appraise" + i)
                          .build();
 

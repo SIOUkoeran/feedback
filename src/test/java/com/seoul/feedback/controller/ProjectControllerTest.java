@@ -8,6 +8,7 @@ import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.request.UserCreateRequest;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
@@ -66,9 +67,11 @@ class ProjectControllerTest extends BaseControllerTest {
 
 
     @Test
+    @WithMockUser(roles = {"STUDENT"})
     void getProjectListByUserId() throws Exception{
         User testUser = User.builder()
                 .login("getProject")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(testUser);
         UserCreateRequest userCreateRequest = new UserCreateRequest(testUser.getLogin());
@@ -114,14 +117,16 @@ class ProjectControllerTest extends BaseControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = {"STUDENT"})
     void getProjectListByNoRegistered() throws Exception {
 
         User testUser = User.builder()
+                .role(Role.STUDENT)
                 .login("testUser")
                 .build();
 
         this.userRepository.save(testUser);
-        mockMvc.perform(get("/api/v1/project/user/{userId}", 2L)
+        mockMvc.perform(get("/api/v1/project/user/{userId}", 10L)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isNotFound());
