@@ -8,19 +8,20 @@ import com.seoul.feedback.dto.request.UserCreateRequest;
 import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
-import com.seoul.feedback.service.FeedbackService;
+import com.seoul.feedback.service.feedback.FeedbackService;
 import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -60,18 +61,22 @@ public class UserControllerTest extends BaseControllerTest {
 //    @Autowired
 //    private DatabaseCleanup databaseCleanup;
 
+    @WithMockUser(roles = {"STUDENT"})
     @Test
     void getUserListByProjectId() throws Exception {
         User user1 = User.builder()
                 .login("testUser1")
+                .role(Role.STUDENT)
                 .build();
 
         User user2 = User.builder()
                 .login("testUser2")
+                .role(Role.STUDENT)
                 .build();
 
         User user3 = User.builder()
                 .login("testUser3")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(user1);
         this.userRepository.save(user2);
@@ -95,9 +100,10 @@ public class UserControllerTest extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("[0].userId").exists())
-                .andExpect(jsonPath("[0].login").exists())
-                .andExpect(jsonPath("[0].feedback").isBoolean())
+                .andExpect(jsonPath("userId").exists())
+                .andExpect(jsonPath("appraisedUserFeedbackList[0].appraisedUserId").exists())
+                .andExpect(jsonPath("appraisedUserFeedbackList[0].login").exists())
+                .andExpect(jsonPath("appraisedUserFeedbackList[0].feedback").isBoolean())
                 .andDo(document("getUserFeedbackListByProjectId",
                         requestHeaders(
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description("요청 컨텐트 타입")
@@ -110,11 +116,12 @@ public class UserControllerTest extends BaseControllerTest {
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description("결과 컨텐트 타입")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("[0].userId").description("결과 유저 ID"),
-                                fieldWithPath("[0].login").description("결과 유저 닉네임"),
-                                fieldWithPath("[0].feedback").description("True : 유저에게 피드백을 남김, False : 피드백 남기지 않음.")
+                                fieldWithPath("userId").description("로그인 유저 아이디"),
+                                fieldWithPath("appraisedUserFeedbackList[0].appraisedUserId").description("결과 유저 아이디"),
+                                fieldWithPath("appraisedUserFeedbackList[0].login").description("결과 유저 닉네임"),
+                                fieldWithPath("appraisedUserFeedbackList[0].feedback").description("True : 유저에게 피드백을 남김, False : 피드백 남기지 않음.")
                         ))
                 );
-
     }
+
 }

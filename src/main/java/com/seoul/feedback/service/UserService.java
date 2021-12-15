@@ -7,6 +7,7 @@ import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
 import com.seoul.feedback.entity.enums.RegisterStatus;
+import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
@@ -39,6 +40,7 @@ public class UserService {
     public void save(UserCreateRequest request) {
         User user = User.builder()
                 .login(request.getLogin())
+                .role(Role.STUDENT)
                 .build();
         if (!validateDuplicateUser(user)) {
             userRepository.save(user);
@@ -73,13 +75,12 @@ public class UserService {
     /**
      *
      * 리팩토링 필요
-     * 페치 조인으로 SQL 성능 개선 필요
-     * ... 테이블 비졍규화 필요 + 1
+     * 프로젝트에 등록된 유저
      *
      * @return
      */
-    @Transactional(readOnly = true)
-    public List<UserResponse.Project> getUserListByProjectId(Long projectId, Long userId){
+
+    private List<UserResponse.Project> getUserFeedbackListByProjectId(Long projectId, Long userId){
         Optional<Project> project = this.projectRepository.findById(projectId);
         Optional<User> user = this.userRepository.findById(userId);
 
@@ -112,12 +113,8 @@ public class UserService {
         ).collect(Collectors.toList());
     }
 
-//    public User findBySessionUser(HttpSession httpSession) {
-//        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-//        Optional<User> findUser = this.userRepository.findByLogin(sessionUser.getLogin());
-//        if (findUser.isEmpty()){
-//            throw new EntityNotFoundException("user not Found! login is something wrong!");
-//        }
-//        return findUser.get();
-//    }
+    @Transactional(readOnly = true)
+    public UserResponse.ProjectWithUserId getFeedbackListByProjectIdAndUser(Long projectId, Long userId){
+        return new UserResponse.ProjectWithUserId(userId, getUserFeedbackListByProjectId(userId, projectId));
+    }
 }

@@ -9,7 +9,6 @@ spring:
             redirectUri: '{baseUrl}/login/oauth2/code/{registrationId}'
             authorization-grant-type: authorization_code
             scope: public
-            response-type: code
             client-name: Seoul42
 
         provider:
@@ -24,4 +23,4 @@ app:
     tokenExpirationMsec: 1m
     oauth2:
       authorizationRedirectUris:
-        - http: //localhost:8080/oauth2/redirect
+        - http: //localhost:3000/oauth2/redirect

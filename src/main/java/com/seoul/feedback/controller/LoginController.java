@@ -2,17 +2,20 @@ package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.Token;
 import com.seoul.feedback.dto.response.UserResponse;
-import com.seoul.feedback.security.SessionUser;
-import com.seoul.feedback.service.RegisterService;
-import com.seoul.feedback.service.UserService;
 import com.seoul.feedback.service.session.OAuth2SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -26,15 +29,30 @@ public class LoginController {
         this.oAuth2SessionService =  oAuth2SessionService;
         this.httpSession = httpSession;
     }
+    @Value("${42.client-id}")
+    private String clientId;
 
+    @Value("${42.client-secret}")
+    private String clientSecret;
+
+    @Value("${42.redirect-uri}")
+    private String redirectUri;
+
+    @Value("${42.access-token}")
+    private String accessToken;
 
     @GetMapping("/login")
-    public ResponseEntity cadetLogin() throws IOException {
-        return ResponseEntity.ok(UserResponse.builder()
-                .user(oAuth2SessionService.findBySessionUser(httpSession))
-                .build());
-    }
+    public ResponseEntity cadetLogin(RedirectAttributes redirectAttributes) throws IOException, URISyntaxException {
+//        return ResponseEntity.ok(UserResponse.builder()
+//                .user(oAuth2SessionService.findBySessionUser(httpSession))
+//                .build());
+        String targetUri = "http://3.34.88.141/project";
+        HttpHeaders httpHeaders = new HttpHeaders();
 
+        return new ResponseEntity<>(httpHeaders, HttpStatus.OK);
+
+
+    }
 //    @GetMapping("/user/login")
 //    public Token getLoginAccess(@RequestParam(name = "code") String code){
 //
