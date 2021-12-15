@@ -112,17 +112,9 @@ public class UserService {
                 }
         ).collect(Collectors.toList());
     }
+
     @Transactional(readOnly = true)
-    public UserResponse.ProjectWithUserId getFeedbackListByProjectId(Long projectId, Long userId){
+    public UserResponse.ProjectWithUserId getFeedbackListByProjectIdAndUser(Long projectId, Long userId){
         return new UserResponse.ProjectWithUserId(userId, getUserFeedbackListByProjectId(userId, projectId));
     }
-
-//    public User findBySessionUser(HttpSession httpSession) {
-//        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
-//        Optional<User> findUser = this.userRepository.findByLogin(sessionUser.getLogin());
-//        if (findUser.isEmpty()){
-//            throw new EntityNotFoundException("user not Found! login is something wrong!");
-//        }
-//        return findUser.get();
-//    }
 }

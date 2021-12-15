@@ -3,13 +3,10 @@ package com.seoul.feedback.controller;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.dto.response.feedback.FeedbackResponse;
 import com.seoul.feedback.exception.CreateFeedbackUserIdDuplicateException;
-import com.seoul.feedback.exception.UserDuplicatedException;
-import com.seoul.feedback.service.FeedbackService;
+import com.seoul.feedback.service.feedback.FeedbackService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
@@ -30,6 +27,7 @@ public class FeedbackController {
         if (feedbackCreateRequest.getAppraisedUserId() == feedbackCreateRequest.getEvalUserId()){
             throw new CreateFeedbackUserIdDuplicateException("You cannot evaluate yourself.");
         }
+
         return new ResponseEntity(FeedbackResponse.builder()
                 .feedback(this.feedbackService.saveFeedback(feedbackCreateRequest, projectId))
                 .projectId(projectId)

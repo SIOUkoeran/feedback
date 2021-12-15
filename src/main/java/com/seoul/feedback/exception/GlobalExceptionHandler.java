@@ -20,7 +20,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<?> handleEntityNotFoundException(final EntityNotFoundException e) {
         System.out.println("handleEntityNotFoundException");
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        ErrorResponse errorResponse= new ErrorResponse(e, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 

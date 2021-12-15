@@ -1,6 +1,5 @@
 package com.seoul.feedback.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
@@ -13,7 +12,7 @@ import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
-import com.seoul.feedback.service.FeedbackService;
+import com.seoul.feedback.service.feedback.FeedbackService;
 import com.seoul.feedback.service.ProjectService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
