@@ -9,7 +9,6 @@ import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
