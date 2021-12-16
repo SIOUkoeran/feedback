@@ -19,10 +19,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String sessionId= request.getSession(false).getId();
+
         String targetUri = "http://3.34.88.141/project";
 //        addSameSiteOnCookie(response);
-        System.out.println("request.getSession().getId() = " + sessionId);
+
 //        response.addHeader("Access-Control-Allow-Credentials", "true");
 //        response.addHeader("Access-Control-Allow-Origin", "http://3.34.88.141");
         response.sendRedirect(targetUri);
