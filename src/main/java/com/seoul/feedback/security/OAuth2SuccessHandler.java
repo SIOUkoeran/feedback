@@ -31,6 +31,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private void addSameSiteOnCookie(HttpServletResponse response) {
         String header = response.getHeader(HttpHeaders.SET_COOKIE);
         response.setHeader(HttpHeaders.SET_COOKIE, String.format("%s; %s", header, "SameSite=None"));
-
+        response.addHeader(HttpHeaders.SET_COOKIE, String.format("%s; %s", header, "SameSite=None"));
     }
 }
