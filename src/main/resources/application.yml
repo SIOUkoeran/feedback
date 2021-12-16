@@ -31,6 +31,7 @@ server:
         domain: http://52.78.177.198
         max-age: 30m
         http-only: true
+        path: /
 
 
 
