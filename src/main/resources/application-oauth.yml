@@ -23,4 +23,4 @@ app:
     tokenExpirationMsec: 1m
     oauth2:
       authorizationRedirectUris:
-        - http: //localhost:3000/oauth2/redirect
+        - http: http://3.34.88.141
