@@ -21,7 +21,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         String targetUri = "http://3.34.88.141/project";
-//        addSameSiteOnCookie(response);
+        addSameSiteOnCookie(response);
+
         getRedirectStrategy().sendRedirect(request, response, targetUri);
     }
 
