@@ -28,7 +28,9 @@ server:
     session:
       timeout: 30m
       cookie:
+        domain: http://3.34.88.141/
         max-age: 30m
+        http-only: true
 
 
 
