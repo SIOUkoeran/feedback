@@ -22,8 +22,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String targetUri = "http://3.34.88.141/project";
 //        addSameSiteOnCookie(response);
-
-        response.sendRedirect(targetUri);
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Methods", "*");
+//        response.setHeader("Access-Control-Max-Age", "3600");
+//        response.setHeader("Access-Control-Allow-Headers",  "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization, JSESSIONID");
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
+        getRedirectStrategy().sendRedirect(request, response, targetUri);
     }
 
     private void addSameSiteOnCookie(HttpServletResponse response) {
