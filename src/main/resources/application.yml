@@ -1,9 +1,9 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/42feedback?characterEncoding=UTF-8
-    username: root
-    password: 1234
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/42feedback?characterEncoding=UTF-8
+#    username: root
+#    password: 1234
 
 #    q
   profiles:
@@ -28,7 +28,7 @@ server:
     session:
       timeout: 30m
       cookie:
-        domain: http://3.34.88.141/
+        domain: http://52.78.177.198
         max-age: 30m
         http-only: true
 
