@@ -1,9 +1,7 @@
 package com.seoul.feedback.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -21,8 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .and()
                 .csrf().disable()
-                .headers().frameOptions().disable()
-                .and()
                 .authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
                 .antMatchers("/api/**").hasRole("STUDENT")
