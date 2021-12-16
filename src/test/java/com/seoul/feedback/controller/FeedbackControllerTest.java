@@ -56,10 +56,12 @@ class FeedbackControllerTest extends BaseControllerTest {
     public void getFeedbackList() throws Exception{
         User evalUser = User.builder()
                 .login("evalTest")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(evalUser);
         User appraisedUser = User.builder()
                 .login("appraiseTest")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(appraisedUser);
         Project project = Project.builder()
@@ -100,11 +102,13 @@ class FeedbackControllerTest extends BaseControllerTest {
     void getEvalUserFeedback() throws Exception{
         User evalUser = User.builder()
                 .login("evalTest")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(evalUser);
         System.out.println("evalUser.getId() = " + evalUser.getId());
         User appraisedUser = User.builder()
                 .login("appraiseTest")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(appraisedUser);
         Project project = Project.builder()

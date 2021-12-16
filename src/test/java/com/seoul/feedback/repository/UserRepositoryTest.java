@@ -2,6 +2,7 @@ package com.seoul.feedback.repository;
 
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.entity.enums.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,7 @@ class UserRepositoryTest {
    void 유저_저장() {
         // given
         User user = User.builder()
+                .role(Role.STUDENT)
                 .login("eun-park")
                 .build();
 
@@ -56,6 +58,7 @@ class UserRepositoryTest {
         // given 테스트 하기 전 상태 or 조건 설명
         User user1 = User.builder()
                 .login("eun-park")
+                .role(Role.STUDENT)
                 .build();
 
         List<User> userList = new ArrayList<>();
@@ -74,6 +77,7 @@ class UserRepositoryTest {
     void 유저_조회_with_login() {
         // given 테스트 하기 전 상태 or 조건 설명
         User user1 = User.builder()
+                .role(Role.STUDENT)
                 .login("eun-park")
                 .build();
 
