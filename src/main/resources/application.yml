@@ -30,3 +30,8 @@ server:
       cookie:
         max-age: 30m
         http-only: true
+  ssl:
+    key-store: classpath:feedback-store.p12
+    key-alias: feedback-store
+    key-store-type: PKCS12
+    key-store-password: alstn977
