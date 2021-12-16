@@ -4,23 +4,24 @@ import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.dto.response.feedback.FeedbackResponse;
 import com.seoul.feedback.exception.CreateFeedbackUserIdDuplicateException;
 import com.seoul.feedback.service.feedback.FeedbackService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
 @RestController
 @RequestMapping(value = "/api/v1/", produces = "application/json; charset=UTF-8")
+@RequiredArgsConstructor
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
+    private final HttpSession session;
 
-    public FeedbackController(FeedbackService feedbackService) {
-        this.feedbackService = feedbackService;
-    }
 
     @PostMapping("/project/{projectId}/feedback")
     public ResponseEntity createFeedback(@PathVariable(name = "projectId") Long projectId, @RequestBody @Valid FeedbackCreateRequest feedbackCreateRequest) {
