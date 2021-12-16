@@ -1,17 +1,14 @@
 package com.seoul.feedback.security;
 
-import com.seoul.feedback.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -19,16 +16,21 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private HttpSession httpSession;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String sessionId= request.getSession(false).getId();
         String targetUri = "http://3.34.88.141/project";
-
+//        addSameSiteOnCookie(response);
         System.out.println("request.getSession().getId() = " + sessionId);
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-        response.addHeader("Access-Control-Allow-Origin", "http://3.34.88.141");
+//        response.addHeader("Access-Control-Allow-Credentials", "true");
+//        response.addHeader("Access-Control-Allow-Origin", "http://3.34.88.141");
         response.sendRedirect(targetUri);
+    }
+
+    private void addSameSiteOnCookie(HttpServletResponse response) {
+        String header = response.getHeader(HttpHeaders.SET_COOKIE);
+        response.setHeader(HttpHeaders.SET_COOKIE, String.format("%s; %s", header, "SameSite=None"));
+
     }
 }
