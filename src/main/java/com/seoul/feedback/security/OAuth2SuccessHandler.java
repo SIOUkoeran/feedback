@@ -33,12 +33,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         for (String header : headers) {
             if (firstHeader) {
                 response.setHeader(HttpHeaders.SET_COOKIE,
-                        String.format("%s; %s", header, "SameSite=None"));
+                        String.format("%s;%s", header, "SameSite=None"));
                 firstHeader = false;
                 continue;
             }
             response.addHeader(HttpHeaders.SET_COOKIE,
-                    String.format("%s; %s", header, "SameSite=None"));
+                    String.format("%s;%s", header, "SameSite=None"));
         }
     }
 }
