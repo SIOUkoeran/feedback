@@ -35,6 +35,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+
     @OneToMany(mappedBy = "evalUser", cascade = CascadeType.ALL)
     private List<Feedback> gaveFeedback = new ArrayList<>();
 
@@ -44,7 +45,7 @@ public class User {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.STUDENT;
 
     @Builder
     public User(String login, Role role) {

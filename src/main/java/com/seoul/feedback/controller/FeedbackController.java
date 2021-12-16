@@ -2,9 +2,9 @@ package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.dto.response.feedback.FeedbackResponse;
-import com.seoul.feedback.service.FeedbackService;
+import com.seoul.feedback.exception.CreateFeedbackUserIdDuplicateException;
+import com.seoul.feedback.service.feedback.FeedbackService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(value = "/api/v1/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/", produces = "application/json; charset=UTF-8")
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
@@ -23,6 +23,11 @@ public class FeedbackController {
 
     @PostMapping("/project/{projectId}/feedback")
     public ResponseEntity createFeedback(@PathVariable(name = "projectId") Long projectId, @RequestBody @Valid FeedbackCreateRequest feedbackCreateRequest) {
+
+        if (feedbackCreateRequest.getAppraisedUserId() == feedbackCreateRequest.getEvalUserId()){
+            throw new CreateFeedbackUserIdDuplicateException("You cannot evaluate yourself.");
+        }
+
         return new ResponseEntity(FeedbackResponse.builder()
                 .feedback(this.feedbackService.saveFeedback(feedbackCreateRequest, projectId))
                 .projectId(projectId)
@@ -37,13 +42,10 @@ public class FeedbackController {
         return ResponseEntity.ok().body(feedbackResponse);
     }
 
-
     @GetMapping("/project/{projectId}/feedbacks")
     public ResponseEntity getFeedbackListByProject(@PathVariable Long projectId) {
         return ResponseEntity.ok().body(this.feedbackService.findFeedbackList(projectId));
     }
-
-
 
     @GetMapping("/user/{userId}/evalFeedbacks")
     public ResponseEntity findFeedbacksByEvalId(@PathVariable(name = "userId") Long userId) {

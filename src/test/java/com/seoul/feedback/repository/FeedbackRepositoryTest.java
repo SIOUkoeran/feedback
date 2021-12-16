@@ -4,6 +4,7 @@ import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.enums.FeedbackStatus;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.entity.enums.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,10 +27,12 @@ class FeedbackRepositoryTest {
     @Test
     void 피드백_생성(){
         User toUser = User.builder()
+                .role(Role.STUDENT)
                 .login("test1")
                 .build();
 
         User fromUser = User.builder()
+                .role(Role.STUDENT)
                 .login("test2")
                 .build();
 
@@ -61,10 +64,12 @@ class FeedbackRepositoryTest {
     {
         User toUser = User.builder()
                 .login("test1")
+                .role(Role.STUDENT)
                 .build();
 
         User fromUser = User.builder()
                 .login("test2")
+                .role(Role.STUDENT)
                 .build();
 
         Project project = Project.builder()
@@ -88,10 +93,12 @@ class FeedbackRepositoryTest {
     {
         User toUser = User.builder()
                 .login("test1")
+                .role(Role.STUDENT)
                 .build();
 
         User fromUser = User.builder()
                 .login("test2")
+                .role(Role.STUDENT)
                 .build();
 
         Project project = Project.builder()

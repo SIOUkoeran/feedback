@@ -527,7 +527,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
 Content-Length: 282
 
 {
@@ -543,7 +548,7 @@ Content-Length: 282
   },
   "message" : "무야호",
   "star" : 3,
-  "createdAt" : "2021-12-03T00:29:45.0262842"
+  "createdAt" : "2021-12-13T01:11:23.3207302"
 }</code></pre>
 </div>
 </div>
@@ -637,7 +642,12 @@ Content-Length: 282
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
 Content-Length: 292
 
 {
@@ -743,7 +753,12 @@ Content-Length: 292
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
 Content-Length: 270
 
 {
@@ -847,7 +862,12 @@ Content-Length: 270
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Content-Type: application/json
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
 Content-Length: 279
 
 {
@@ -960,7 +980,7 @@ Content-Length: 279
 <h3 id="_request_curl"><a class="link" href="#_request_curl">REQUEST CURL</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/v1/project/user/1' -i -X GET \
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'http://localhost:8080/api/v1/project/user/3' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8'</code></pre>
 </div>
 </div>
@@ -970,11 +990,11 @@ Content-Length: 279
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">[ {
-  "projectId" : 1,
+  "projectId" : 2,
   "name" : "Project1",
   "description" : "projectDescription"
 }, {
-  "projectId" : 2,
+  "projectId" : 3,
   "name" : "project2",
   "description" : "projectDescription"
 } ]</code></pre>
@@ -1090,17 +1110,22 @@ Content-Length: 279
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">결과 유저 ID</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 유저 아이디</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].login</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appraisedUserFeedbackList[0].appraisedUserId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 유저 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appraisedUserFeedbackList[0].login</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">결과 유저 닉네임</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[0].feedback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appraisedUserFeedbackList[0].feedback</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">True : 유저에게 피드백을 남김, False : 피드백 남기지 않음.</p></td>
 </tr>
@@ -1111,15 +1136,18 @@ Content-Length: 279
 <h3 id="_response_body"><a class="link" href="#_response_body">RESPONSE BODY</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-none hljs">[ {
-  "userId" : 2,
-  "login" : "testUser2",
-  "feedback" : true
-}, {
-  "userId" : 3,
-  "login" : "testUser3",
-  "feedback" : false
-} ]</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "userId" : 1,
+  "appraisedUserFeedbackList" : [ {
+    "appraisedUserId" : 2,
+    "login" : "testUser2",
+    "feedback" : true
+  }, {
+    "appraisedUserId" : 3,
+    "login" : "testUser3",
+    "feedback" : false
+  } ]
+}</code></pre>
 </div>
 </div>
 </div>

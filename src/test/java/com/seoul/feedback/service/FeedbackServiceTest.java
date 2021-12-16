@@ -5,13 +5,12 @@ import com.seoul.feedback.dto.response.feedback.FeedbackProjectIdResponse;
 import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
+import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
-import org.aspectj.lang.annotation.After;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.seoul.feedback.service.feedback.FeedbackService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,21 +37,21 @@ class FeedbackServiceTest {
     @Autowired
     RegisterRepository registerRepository;
 
+    @Autowired
+    RegisterService registerService;
     @Test
     @Transactional
     void saveFeedback(){
-        User eval = User.builder()
-                .login("evalUser").build();
-        User appraise = User.builder()
-                .login("appraisedUser").build();
-        User evalUser = this.userRepository.save(eval);
-        User appraisedUser = this.userRepository.save(appraise);
+        User evalUser = createUser("evalUser");
+        User appraisedUser = createUser("appraisedUser");
+
+
         String message = "열정적인 리뷰 감사합니다!.";
-        Project project = Project.builder()
-                .name("testProject")
-                .description("testDescription")
-                .build();
-        Project project1 = this.projectRepository.save(project);
+
+        Project project = createProject("projectName", "projectDescription");
+
+        this.registerService.save(project.getId(), evalUser.getLogin());
+        this.registerService.save(project.getId(), appraisedUser.getLogin());
 
         Feedback saveFeedback = this.feedbackService.saveFeedback(new FeedbackCreateRequest(evalUser.getId(), appraisedUser.getId(), message, 5), project.getId());
 
@@ -67,7 +66,53 @@ class FeedbackServiceTest {
         assertThat(appraisedUser.getReceivedFeedback().get(0).getEvalUser().getLogin())
                 .isEqualTo(evalUser.getLogin());
 
+        assertThat(saveFeedback.getProject().getId()).isEqualTo(project.getId());
+    }
+
+    @Test
+    @Transactional
+    void saveFeedbackWithWrongRegister(){
+        User eval = createUser("evalUser");
+        User appraise = createUser("appraisedUser");
+
+        User evalUser = this.userRepository.save(eval);
+        User appraisedUser = this.userRepository.save(appraise);
+        String message = "열정적인 리뷰 감사합니다!.";
+        Project project = createProject("testProject", "testDescription");
+        Project project1 = this.projectRepository.save(project);
+
+        Feedback saveFeedback = this.feedbackService.saveFeedback(new FeedbackCreateRequest(evalUser.getId(), appraisedUser.getId(), message, 5), project.getId());
+
+        assertThat(saveFeedback.getEvalUser().getId()).isEqualTo(evalUser.getId());
+        assertThat(saveFeedback.getAppraisedUser().getId()).isEqualTo(appraisedUser.getId());
+        assertThat(evalUser.getGaveFeedback().get(0)).isNotNull();
+        assertThat(evalUser.getReceivedFeedback().size()).isEqualTo(0);
+        assertThat(evalUser.getGaveFeedback().get(0).getAppraisedUser().getLogin())
+                .isEqualTo(appraisedUser.getLogin());
+        assertThat(appraisedUser.getReceivedFeedback().get(0)).isNotNull();
+        assertThat(appraisedUser.getGaveFeedback().size()).isEqualTo(0);
+        assertThat(appraisedUser.getReceivedFeedback().get(0).getEvalUser().getLogin())
+                .isEqualTo(evalUser.getLogin());
+
         assertThat(saveFeedback.getProject().getId()).isEqualTo(project1.getId());
+    }
+
+    private Project createProject(String name, String description) {
+        Project project = Project.builder()
+                .name(name)
+                .description(description)
+                .build();
+        this.projectRepository.save(project);
+        return project;
+    }
+
+    private User createUser(String userLogin) {
+        User user =  User.builder()
+                    .login(userLogin)
+                    .role(Role.STUDENT)
+                    .build();
+        this.userRepository.save(user);
+        return user;
     }
 
     @Test
@@ -80,12 +125,14 @@ class FeedbackServiceTest {
         this.projectRepository.save(project);
         User evalUser = User.builder()
                 .login("eval")
+                .role(Role.STUDENT)
                 .build();
         this.userRepository.save(evalUser);
         String message = "열정적인 리뷰 감사합니다!.길이맞추기용용용용용용용용용용";
 
         for (int i = 0; i < 10; i++) {
              User appraisedUser = User.builder()
+                     .role(Role.STUDENT)
                          .login("appraise" + i)
                          .build();
 
@@ -103,5 +150,7 @@ class FeedbackServiceTest {
 //        }
 
     }
+
+
 
 }

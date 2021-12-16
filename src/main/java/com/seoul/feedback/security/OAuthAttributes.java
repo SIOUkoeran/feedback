@@ -15,6 +15,7 @@ public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String login;
+
     @Builder
     public  OAuthAttributes(Map<String, Object> attributes,
                             String nameAttributeKey,
@@ -31,6 +32,7 @@ public class OAuthAttributes {
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
+
     }
     public User toEntity() {
         return new User(login ,Role.STUDENT);
