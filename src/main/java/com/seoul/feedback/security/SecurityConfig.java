@@ -19,10 +19,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .and()
                 .csrf().disable()
-                .headers().frameOptions().disable()
-                .and()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/js/**", "/h2/**", "/h2-console/**", "/docs/**", "/oauth2/**").permitAll()
+                .antMatchers("/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
@@ -34,10 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(oAuth2SuccessHandler)
+                .failureUrl("/oauth2/authorization/login")
                 ;
-
-
     }
-
-
 }

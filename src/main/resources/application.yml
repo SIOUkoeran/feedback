@@ -4,12 +4,6 @@ spring:
     url: jdbc:mysql://localhost:3306/42feedback?characterEncoding=UTF-8
     username: root
     password: 1234
-#  datasource:
-#    driver-class-name: org.h2.Driver
-#    url: jdbc:h2:tcp://localhost/~/jpashop2
-#    username: sa
-#    password:
-
   profiles:
     include: oauth
   jpa:
@@ -32,8 +26,10 @@ server:
     session:
       timeout: 30m
       cookie:
-        http-only: true
         max-age: 30m
-
-
-
+        http-only: true
+  ssl:
+    key-store: classpath:feedback-store.p12
+    key-alias: feedback-store
+    key-store-type: PKCS12
+    key-store-password: alstn977
