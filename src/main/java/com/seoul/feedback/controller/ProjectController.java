@@ -23,6 +23,7 @@ public class ProjectController {
     private final ProjectService projectService;
     private final UserService userService;
     private final RegisterService registerService;
+    private final HttpSession httpSession;
 
     @PostMapping(value = "/project")
     public ProjectResponse create(@RequestBody ProjectCreateRequest request) {

@@ -1,5 +1,6 @@
 package com.seoul.feedback.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
@@ -142,7 +143,7 @@ class ProjectControllerTest extends BaseControllerTest {
         ProjectUpdateRequest projectUpdateRequest = new ProjectUpdateRequest("projectName", "프로젝트 한글 잘 나오나요?", Arrays.asList(userCreateRequest, userCreateRequest1));
         Project project = new Project("project1", "projectDescription");
         this.projectRepository.save(project);
-        
+
         mockMvc.perform(put("/api/v1/project/{projectId}", 1L)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(projectUpdateRequest)))
