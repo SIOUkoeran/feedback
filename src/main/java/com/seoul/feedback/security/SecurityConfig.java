@@ -34,5 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2SuccessHandler)
                 .failureUrl("/oauth2/authorization/login")
                 ;
+
+
     }
+
+
 }
