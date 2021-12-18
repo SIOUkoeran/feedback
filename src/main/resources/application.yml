@@ -4,8 +4,6 @@ spring:
     url: jdbc:mysql://localhost:3306/42feedback?characterEncoding=UTF-8
     username: root
     password: 1234
-
-#    q
   profiles:
     include: oauth
   jpa:
@@ -29,6 +27,9 @@ server:
       timeout: 30m
       cookie:
         max-age: 30m
-
-
-
+        http-only: true
+  ssl:
+    key-store: classpath:feedback-store.p12
+    key-alias: feedback-store
+    key-store-type: PKCS12
+    key-store-password: alstn977

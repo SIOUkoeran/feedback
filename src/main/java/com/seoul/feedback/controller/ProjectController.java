@@ -9,9 +9,10 @@ import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public class ProjectController {
     private final ProjectService projectService;
     private final UserService userService;
     private final RegisterService registerService;
+    private final HttpSession httpSession;
 
     @PostMapping(value = "/project")
     public ProjectResponse create(@RequestBody ProjectCreateRequest request) {

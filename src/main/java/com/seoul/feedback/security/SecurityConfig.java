@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 
-
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,11 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .and()
                 .csrf().disable()
-                .headers().frameOptions().disable()
-                .and()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/js/**", "/h2/**", "/h2-console/**", "/docs/**", "/oauth2/**").permitAll()
-                .anyRequest().hasAnyRole()
+                .antMatchers("/oauth2/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .logout()
                     .logoutSuccessUrl("/").permitAll()
@@ -35,10 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService)
                 .and()
                 .successHandler(oAuth2SuccessHandler)
+                .failureUrl("/oauth2/authorization/login")
                 ;
-
-
     }
-
-
 }

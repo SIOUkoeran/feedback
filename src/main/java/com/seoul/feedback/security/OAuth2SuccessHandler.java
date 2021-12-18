@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 
 
 @Component
@@ -21,16 +22,23 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         String targetUri = "http://3.34.88.141/project";
-//        addSameSiteOnCookie(response);
+        addSameSiteOnCookie(response);
 
-//        response.addHeader("Access-Control-Allow-Credentials", "true");
-//        response.addHeader("Access-Control-Allow-Origin", "http://3.34.88.141");
-        response.sendRedirect(targetUri);
+        getRedirectStrategy().sendRedirect(request, response, targetUri);
     }
 
     private void addSameSiteOnCookie(HttpServletResponse response) {
-        String header = response.getHeader(HttpHeaders.SET_COOKIE);
-        response.setHeader(HttpHeaders.SET_COOKIE, String.format("%s; %s", header, "SameSite=None"));
-
+        Collection<String> headers = response.getHeaders(HttpHeaders.SET_COOKIE);
+        boolean firstHeader = true;
+        for (String header : headers) {
+            if (firstHeader) {
+                response.setHeader(HttpHeaders.SET_COOKIE,
+                        String.format("%s; Secure; %s", header, "SameSite=None"));
+                firstHeader = false;
+                continue;
+            }
+            response.addHeader(HttpHeaders.SET_COOKIE,
+                    String.format("%s; Secure; %s", header, "SameSite=None"));
+        }
     }
 }
