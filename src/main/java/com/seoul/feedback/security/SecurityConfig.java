@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/oauth2/**").permitAll()
+                .antMatchers("/oauth2/**","docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
@@ -34,5 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(oAuth2SuccessHandler)
                 .failureUrl("/oauth2/authorization/login")
                 ;
+
+
     }
+
+
 }
