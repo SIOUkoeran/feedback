@@ -15,20 +15,24 @@ public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String login;
+    private boolean isStaff;
 
     @Builder
     public  OAuthAttributes(Map<String, Object> attributes,
                             String nameAttributeKey,
-                            String login){
+                            String login,
+                            boolean isStaff){
         this.login = login;
         this.nameAttributeKey = nameAttributeKey;
         this.attributes = attributes;
+        this.isStaff = isStaff;
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName,
                                      Map<String, Object> attributes){
         return OAuthAttributes.builder()
                 .login((String) attributes.get("login"))
+                .isStaff((boolean) attributes.get("staff?"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -36,5 +40,8 @@ public class OAuthAttributes {
     }
     public User toEntity() {
         return new User(login ,Role.STUDENT);
+    }
+    public User toAdminEntity(){
+        return new User(login, Role.ADMIN);
     }
 }
