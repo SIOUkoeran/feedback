@@ -9,6 +9,7 @@ spring:
             redirectUri: '{baseUrl}/login/oauth2/code/{registrationId}'
             authorization-grant-type: authorization_code
             scope: public
+            response-type: code
             client-name: Seoul42
 
         provider:
