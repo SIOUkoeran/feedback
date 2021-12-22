@@ -11,7 +11,6 @@ import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
-import com.seoul.feedback.service.session.OAuth2SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
-    private final OAuth2SessionService oAuth2SessionService;
 
     private boolean validateDuplicateUser(User user) {
         Optional<User> optionalUser = userRepository.findByLogin(user.getLogin());
