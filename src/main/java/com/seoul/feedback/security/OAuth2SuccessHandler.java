@@ -27,10 +27,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         addSameSiteOnCookie(response);
         SessionUser sessionUser =(SessionUser) request.getSession(false).getAttribute("user");
         if (sessionUser.getRole() == Role.STUDENT){
-            getRedirectStrategy().sendRedirect(request, response, targetUri);
+            response.sendRedirect(targetUri);
         }
         else {
-            getRedirectStrategy().sendRedirect(request, response, adminTargetUri);
+            response.sendRedirect(adminTargetUri);
         }
     }
 
