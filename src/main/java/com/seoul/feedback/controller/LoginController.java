@@ -18,6 +18,7 @@ public class LoginController {
 
     private final HttpSession httpSession;
     private final CustomOAuth2UserService oAuth2SessionService;
+
     @Autowired
     public LoginController(CustomOAuth2UserService oAuth2SessionService, HttpSession httpSession) {
         this.oAuth2SessionService =  oAuth2SessionService;

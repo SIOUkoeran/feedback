@@ -113,6 +113,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse.ProjectWithUserId getFeedbackListByProjectIdAndUser(Long projectId, Long userId){
-        return new UserResponse.ProjectWithUserId(userId, getUserFeedbackListByProjectId(userId, projectId));
+        return new UserResponse.ProjectWithUserId(userId, getUserFeedbackListByProjectId(projectId, userId));
     }
 }

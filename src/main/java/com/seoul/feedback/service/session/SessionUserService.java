@@ -15,7 +15,6 @@ import java.util.Optional;
 public class SessionUserService implements OAuth2SessionService{
 
     private final UserRepository userRepository;
-
     @Override
     public User findBySessionUser(HttpSession httpSession) {
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
