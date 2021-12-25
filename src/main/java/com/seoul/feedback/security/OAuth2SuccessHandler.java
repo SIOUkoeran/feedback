@@ -22,8 +22,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        String targetUri = "http://3.34.88.141/cadet";
-        String adminTargetUri = "http://3.34.88.141/project";
+        String targetUri = "http://3.34.88.141/cadet/";
+        String adminTargetUri = "http://3.34.88.141/project/";
         addSameSiteOnCookie(response);
         SessionUser sessionUser =(SessionUser) request.getSession(false).getAttribute("user");
         if (sessionUser.getRole() == Role.STUDENT){
