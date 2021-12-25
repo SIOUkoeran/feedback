@@ -14,9 +14,9 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserController {
-    private final HttpSession session;
     private final UserService userService;
     private final SessionUserService sessionUserService;
+    private final HttpSession httpSession;
 
     @GetMapping(value = "/users/{userId}/registers")
     public List<RegisterResponse> findRegistersById (@PathVariable  Long userId) {
@@ -24,8 +24,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/project/{projectId}/user/feedback-list")
-    public ResponseEntity getUserListByProjectId (@PathVariable(name ="projectId") Long projectId, HttpSession session){
-        User user = sessionUserService.findBySessionUser(session);
+    public ResponseEntity getUserListByProjectId (@PathVariable(name ="projectId") Long projectId){
+        User user = sessionUserService.findBySessionUser(httpSession);
         return ResponseEntity.ok().body(this.userService.getFeedbackListByProjectIdAndUser(projectId, user.getId()));
     }
 }

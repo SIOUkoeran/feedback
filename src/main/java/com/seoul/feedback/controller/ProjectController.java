@@ -38,7 +38,7 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/project")
-    public ResponseEntity getProjectsByUser(HttpSession httpSession){
+    public ResponseEntity getProjectsByUser(){
         User user = sessionUserService.findBySessionUser(httpSession);
         return ResponseEntity.ok().body(this.userService.findByUserId(user.getId()).stream()
                 .map(registerResponse -> this.projectService
