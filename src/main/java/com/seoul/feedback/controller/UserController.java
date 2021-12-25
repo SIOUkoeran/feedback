@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/project/{projectId}/user/feedback-list")
-    public ResponseEntity getUserListByProjectId (@PathVariable(name ="projectId") Long projectId){
+    public ResponseEntity getUserListByProjectId (@PathVariable(name ="projectId") Long projectId, HttpSession session){
         User user = sessionUserService.findBySessionUser(session);
         return ResponseEntity.ok().body(this.userService.getFeedbackListByProjectIdAndUser(projectId, user.getId()));
     }
