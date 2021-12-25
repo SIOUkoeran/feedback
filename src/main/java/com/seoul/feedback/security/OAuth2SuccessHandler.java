@@ -25,13 +25,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String targetUri = "http://3.34.88.141/cadet";
         String adminTargetUri = "http://3.34.88.141/project";
         addSameSiteOnCookie(response);
-//        SessionUser sessionUser =(SessionUser) request.getSession(false).getAttribute("user");
-//        if (sessionUser.getRole() == Role.STUDENT){
+        SessionUser sessionUser =(SessionUser) request.getSession(false).getAttribute("user");
+        if (sessionUser.getRole() == Role.STUDENT){
             getRedirectStrategy().sendRedirect(request, response, targetUri);
-//        }
-//        else {
-//            getRedirectStrategy().sendRedirect(request, response, adminTargetUri);
-//        }
+        }
+        else {
+            getRedirectStrategy().sendRedirect(request, response, adminTargetUri);
+        }
     }
 
     private void addSameSiteOnCookie(HttpServletResponse response) {

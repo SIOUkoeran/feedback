@@ -22,9 +22,10 @@ server:
     session:
       cookie:
         name: JSESSIONID
-        domain:
         http-only: true
         path: /
+        max-age: 30m
+      timeout: 30m
 
     encoding:
       charset: UTF-8
