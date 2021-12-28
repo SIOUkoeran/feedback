@@ -95,6 +95,7 @@ public class FeedbackService {
 
     @Transactional
     public FeedbackResponse getFeedback(Long appraisedUserId, Long userId, Long projectId){
+        feedbackValidator.isSameAppraisedUserAndEvalUser(appraisedUserId, userId);
         Feedback findFeedback =  this.feedbackRepository.findByProjectIdAndAppraisedUserIdAndEvalUserId(projectId, appraisedUserId, userId)
                 .orElseThrow(() -> new EntityNotFoundException("NOT_FOUND_FEEDBACK"));
         return FeedbackResponse.builder()

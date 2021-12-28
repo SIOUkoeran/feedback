@@ -12,9 +12,11 @@ import javax.swing.text.html.parser.Entity;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserDuplicatedException.class)
-    protected void handleUserDuplicatedException(final UserDuplicatedException e) {
+    protected ResponseEntity handleUserDuplicatedException(final UserDuplicatedException e) {
         System.out.println("handleUserDuplicatedException");
         System.out.println("이미 등록된 유저입니다");
+        ErrorResponse errorResponse = new ErrorResponse(e, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

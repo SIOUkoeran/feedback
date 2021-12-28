@@ -319,6 +319,22 @@ class FeedbackControllerTest extends BaseControllerTest {
                 ))
         ;
     }
+    @Test
+    @DisplayName("BAD_REQUEST, 피드백 같은 유저로 검색하기 ")
+    @WithMockUser(roles = {"STUDENT"})
+    void findFeedbackWithSameUserId() throws Exception {
+        User evalUser = saveUser("evalUser");
+        User appraisedUser = saveUser("appraisedUser");
+        Project savedProject = saveProject("testProject", "testProjectDescription");
+        Feedback feedback  = saveFeedback(evalUser, appraisedUser, "testFeedback", 5, savedProject);
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user",new SessionUser(evalUser));
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/project/{projectId}/feedback/user/{appraisedId}", 1L, 1L)
+                        .session(session)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 
     @Transactional
     User saveUser(String name){
