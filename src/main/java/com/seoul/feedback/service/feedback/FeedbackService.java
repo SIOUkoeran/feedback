@@ -16,6 +16,7 @@ import com.seoul.feedback.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 
@@ -90,6 +91,16 @@ public class FeedbackService {
         Optional<Feedback> feedback= this.feedbackRepository.findById(feedbackId);
         feedbackValidator.throwEmpty(feedback.isEmpty(), "Feedback not Found");
         feedback.get().cancel();
+    }
+
+    @Transactional
+    public FeedbackResponse getFeedback(Long appraisedUserId, Long userId, Long projectId){
+        Feedback findFeedback =  this.feedbackRepository.findByProjectIdAndAppraisedUserIdAndEvalUserId(projectId, appraisedUserId, userId)
+                .orElseThrow(() -> new EntityNotFoundException("NOT_FOUND_FEEDBACK"));
+        return FeedbackResponse.builder()
+                .projectId(projectId)
+                .feedback(findFeedback)
+                .build();
     }
 
 }

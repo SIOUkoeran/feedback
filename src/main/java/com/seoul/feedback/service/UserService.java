@@ -83,13 +83,9 @@ public class UserService {
         Optional<User> user = this.userRepository.findById(userId);
 
         if (project.isEmpty())
-        {
             throw new EntityNotFoundException("there is no registered project");
-        }
         if (user.isEmpty())
-        {
-            throw new EntityNotFoundException("");
-        }
+            throw new EntityNotFoundException("NOT FOUND USER");
         return project.get().getRegisterList()
                 .stream()
                 .filter(register -> register.getStatus() == RegisterStatus.REGISTER)

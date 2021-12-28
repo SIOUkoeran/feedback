@@ -36,8 +36,7 @@ import java.util.List;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -71,7 +70,7 @@ class ProjectControllerTest extends BaseControllerTest {
 
     @Autowired
     RegisterRepository registerRepository;
-    private Long TEST_ACCOUNT_CODE;
+
 
 
 
@@ -143,10 +142,29 @@ class ProjectControllerTest extends BaseControllerTest {
         this.registerRepository.save(register);
         MockHttpSession session = new MockHttpSession();
         session.setAttribute("user", new SessionUser(user));
-        mockMvc.perform(get("/api/v1/project").session(session)
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/project").session(session)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("[0].projectId").exists())
+                .andDo(document("getProjectsListByUserId",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("컨텐트 타입 헤더")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN).description("허용 origin"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS).description("허용 메소드"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_MAX_AGE).description("허용 age"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS).description("허용 헤더"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS).description("허용 노출 헤더"),
+                                headerWithName(HttpHeaders.VARY).description(""),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("컨텐트 타입 헤더")
+                        ),
+                        responseFields(
+                                fieldWithPath("[0].projectId").description("프로젝트 아이디"),
+                                fieldWithPath("[0].name").description("프로젝트 이름"),
+                                fieldWithPath("[0].description").description("프로젝트 설명")
+                        )));
 
     }
 

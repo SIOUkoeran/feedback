@@ -3,10 +3,13 @@ package com.seoul.feedback.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
+import com.seoul.feedback.dto.response.feedback.FeedbackResponse;
 import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.exception.CreateFeedbackUserIdDuplicateException;
 import com.seoul.feedback.repository.RegisterRepository;
 
+import com.seoul.feedback.service.feedback.FeedbackService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -49,7 +52,8 @@ class FeedbackControllerTest extends BaseControllerTest {
 
     @Autowired
     RegisterRepository registerRepository;
-
+    @Autowired
+    FeedbackService feedbackService;
 
     @Test
     @WithMockUser(roles = {"STUDENT"})
@@ -105,7 +109,6 @@ class FeedbackControllerTest extends BaseControllerTest {
                 .role(Role.STUDENT)
                 .build();
         this.userRepository.save(evalUser);
-        System.out.println("evalUser.getId() = " + evalUser.getId());
         User appraisedUser = User.builder()
                 .login("appraiseTest")
                 .role(Role.STUDENT)
@@ -257,5 +260,22 @@ class FeedbackControllerTest extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(feedbackCreateRequest)))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
+    }
+
+
+    private User saveUser(String name){
+        return User.builder()
+                .login(name)
+                .role(Role.STUDENT)
+                .build();
+    }
+    private Project saveProject(String name, String description){
+        return Project.builder()
+                .description(description)
+                .name(name)
+                .build();
+    }
+    private Feedback saveFeedback(User evalUser, User appraisedUser, String message, int star, Project project){
+        return this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, message, star, project));
     }
 }

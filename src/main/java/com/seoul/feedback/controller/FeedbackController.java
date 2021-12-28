@@ -2,8 +2,11 @@ package com.seoul.feedback.controller;
 
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.dto.response.feedback.FeedbackResponse;
+import com.seoul.feedback.entity.User;
 import com.seoul.feedback.exception.CreateFeedbackUserIdDuplicateException;
+import com.seoul.feedback.security.SessionUser;
 import com.seoul.feedback.service.feedback.FeedbackService;
+import com.seoul.feedback.service.session.SessionUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,7 @@ public class FeedbackController {
 
     private final FeedbackService feedbackService;
     private final HttpSession session;
-
+    private final SessionUserService sessionUserService;
 
     @PostMapping("/project/{projectId}/feedback")
     public ResponseEntity createFeedback(@PathVariable(name = "projectId") Long projectId, @RequestBody @Valid FeedbackCreateRequest feedbackCreateRequest) {
@@ -61,6 +64,12 @@ public class FeedbackController {
         return ResponseEntity.ok().body(this.feedbackService.feedbackAppraisedList(userId));
     }
 
+    @GetMapping("/project/{projectId}/feedback/user/{appraisedId}")
+    public FeedbackResponse findFeedback(@PathVariable Long projectId,
+                                         @PathVariable Long appraisedId){
+        User user = this.sessionUserService.findBySessionUser(session);
+        return this.feedbackService.getFeedback(appraisedId, user.getId() ,projectId);
+    }
 
 
 }

@@ -33,6 +33,7 @@ public class UserResponse {
             this.appraisedUserId = userId;
             this.login = login;
             this.feedback = feedback;
+
         }
     }
     @Getter
