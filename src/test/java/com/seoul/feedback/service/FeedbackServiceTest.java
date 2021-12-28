@@ -165,6 +165,7 @@ class FeedbackServiceTest {
         System.out.println(feedback.getId());
         FeedbackResponse feedbackResponse = this.feedbackService.getFeedback(appraisedUser.getId(), evalUser.getId(), project.getId());
         Assertions.assertThat(feedbackResponse.getAppraisedUser().getLogin()).isEqualTo(appraisedUser.getLogin());
+        System.out.println(feedbackResponse.toString());
     }
     @Transactional
     User saveUser(String name){

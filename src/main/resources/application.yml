@@ -31,6 +31,7 @@ server:
       charset: UTF-8
       force-request: true
       force-response: true
+
   ssl:
     key-store: classpath:feedback-store.p12
     key-alias: feedback-store

@@ -8,6 +8,7 @@ import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.exception.CreateFeedbackUserIdDuplicateException;
 import com.seoul.feedback.repository.RegisterRepository;
 
+import com.seoul.feedback.security.SessionUser;
 import com.seoul.feedback.service.feedback.FeedbackService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,13 +22,18 @@ import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -262,20 +268,76 @@ class FeedbackControllerTest extends BaseControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("프로젝트 내에서 피드백 열람하기")
+    @WithMockUser(roles = {"STUDENT"}, username = "evalUser")
+    void findFeedback() throws Exception{
+        User evalUser = saveUser("evalUser");
+        User appraisedUser = saveUser("appraisedUser");
+        Project savedProject = saveProject("testProject", "testProjectDescription");
+        Feedback feedback  = saveFeedback(evalUser, appraisedUser, "testFeedback", 5, savedProject);
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user",new SessionUser(evalUser));
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/project/{projectId}/feedback/user/{appraisedId}", 1L, 2L)
+                .session(session)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("projectId").exists())
+                .andExpect(jsonPath("feedbackId").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("star").exists())
+                .andDo(document("findFeedback",
 
-    private User saveUser(String name){
-        return User.builder()
+                        requestHeaders(
+                                headerWithName("Content-Type").description("content-type")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN).description("허용 origin"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS).description("허용 메소드"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_MAX_AGE).description("허용 age"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS).description("허용 헤더"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS).description("허용 노출 헤더"),
+                                headerWithName(HttpHeaders.VARY).description(""),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("컨텐트 타입 헤더")
+                        ),
+                        pathParameters(
+                                parameterWithName("projectId").description("찾으려는 피드백의 등록된 프로젝트 아이디"),
+                                parameterWithName("appraisedId").description("찾으려는 피드백의 평가된 유저 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("projectId").description("찾으려는 피드백의 등록된 프로젝트 아이디"),
+                                fieldWithPath("feedbackId").description("찾으려는 피드백의 아이디"),
+                                fieldWithPath("message").description("찾으려는 피드백의 등록된 프로젝트 메세지"),
+                                fieldWithPath("star").description("찾으려는 피드백의 등록된 프로젝트 별점"),
+                                fieldWithPath("evalUser.userId").description("찾으려는 피드백의 평가한 유저 아이디"),
+                                fieldWithPath("evalUser.login").description("찾으려는 피드백의 평가한 유저 로그인"),
+                                fieldWithPath("appraisedUser.userId").description("찾으려는 피드백의 평가된 유저 아이디"),
+                                fieldWithPath("appraisedUser.login").description("찾으려는 피드백의 평가된 유저 아이디"),
+                                fieldWithPath("createdAt").description("생성된 날짜")
+                        )
+                ))
+        ;
+    }
+
+    @Transactional
+    User saveUser(String name){
+        User user = User.builder()
                 .login(name)
                 .role(Role.STUDENT)
                 .build();
+        return this.userRepository.save(user);
     }
-    private Project saveProject(String name, String description){
-        return Project.builder()
+    @Transactional
+    Project saveProject(String name, String description){
+        Project project = Project.builder()
                 .description(description)
                 .name(name)
                 .build();
+        return this.projectRepository.save(project);
     }
-    private Feedback saveFeedback(User evalUser, User appraisedUser, String message, int star, Project project){
+    @Transactional
+    Feedback saveFeedback(User evalUser, User appraisedUser, String message, int star, Project project){
         return this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, message, star, project));
     }
 }
