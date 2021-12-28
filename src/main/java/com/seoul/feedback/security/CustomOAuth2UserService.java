@@ -53,7 +53,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private User save(OAuthAttributes attributes) {
         Optional<User> user = this.userRepository.findByLogin(attributes.getLogin());
         if (user.isEmpty() || user.get().getRole() == null){
-            return this.userRepository.save(attributes.toEntity());
+            if (!attributes.isStaff()) {
+                return this.userRepository.save(attributes.toEntity());
+            }else if (attributes.isStaff()){
+                return this.userRepository.save(attributes.toAdminEntity());
+            }
         }
         return user.get();
     }

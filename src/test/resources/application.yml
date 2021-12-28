@@ -39,4 +39,21 @@ spring:
   client-secret: 22f4592cb410bdaa230f6b6df0fdc34ef87b6e774875d21a4173cb13c85fdb5f
   redirect-uri: http://localhost:8080/api/v1/user/login
   client-authentication-method: POST
-  
+server:
+  servlet:
+    session:
+      cookie:
+        name: JSESSIONID
+        domain:
+        http-only: true
+        path: /
+
+    encoding:
+      charset: UTF-8
+      force-request: true
+      force-response: true
+  ssl:
+    key-store: classpath:feedback-store.p12
+    key-alias: feedback-store
+    key-store-type: PKCS12
+    key-store-password: alstn977

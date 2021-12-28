@@ -11,7 +11,6 @@ import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.exception.EntityNotFoundException;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.UserRepository;
-import com.seoul.feedback.service.session.OAuth2SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
-    private final OAuth2SessionService oAuth2SessionService;
 
     private boolean validateDuplicateUser(User user) {
         Optional<User> optionalUser = userRepository.findByLogin(user.getLogin());
@@ -85,13 +83,9 @@ public class UserService {
         Optional<User> user = this.userRepository.findById(userId);
 
         if (project.isEmpty())
-        {
             throw new EntityNotFoundException("there is no registered project");
-        }
         if (user.isEmpty())
-        {
-            throw new EntityNotFoundException("");
-        }
+            throw new EntityNotFoundException("NOT FOUND USER");
         return project.get().getRegisterList()
                 .stream()
                 .filter(register -> register.getStatus() == RegisterStatus.REGISTER)
@@ -115,6 +109,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse.ProjectWithUserId getFeedbackListByProjectIdAndUser(Long projectId, Long userId){
-        return new UserResponse.ProjectWithUserId(userId, getUserFeedbackListByProjectId(userId, projectId));
+        return new UserResponse.ProjectWithUserId(userId, getUserFeedbackListByProjectId(projectId, userId));
     }
 }

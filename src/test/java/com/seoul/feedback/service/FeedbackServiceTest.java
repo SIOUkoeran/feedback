@@ -2,6 +2,7 @@ package com.seoul.feedback.service;
 
 import com.seoul.feedback.dto.request.FeedbackCreateRequest;
 import com.seoul.feedback.dto.response.feedback.FeedbackProjectIdResponse;
+import com.seoul.feedback.dto.response.feedback.FeedbackResponse;
 import com.seoul.feedback.entity.Feedback;
 import com.seoul.feedback.entity.Project;
 import com.seoul.feedback.entity.User;
@@ -11,9 +12,12 @@ import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
 import com.seoul.feedback.service.feedback.FeedbackService;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -149,6 +153,39 @@ class FeedbackServiceTest {
 //            assertThat(feedbackList.getFeedbackResponses().get(i).getAppraisedUser().getUserId()).isEqualTo(Long.valueOf(i + 2));
 //        }
 
+    }
+    @Test
+    @DisplayName("등록된 프로젝트 내에서 개별 피드백 확인")
+    @Transactional
+    void getFeedbackInProjectByUserId() throws Exception{
+        User evalUser = saveUser("evalUser");
+        User appraisedUser = saveUser("appraisedUser");
+        Project project = saveProject("testProject", "testProjectDescription");
+        Feedback feedback = saveFeedback(evalUser, appraisedUser, "testFeedback", 5, project);
+        System.out.println(feedback.getId());
+        FeedbackResponse feedbackResponse = this.feedbackService.getFeedback(appraisedUser.getId(), evalUser.getId(), project.getId());
+        Assertions.assertThat(feedbackResponse.getAppraisedUser().getLogin()).isEqualTo(appraisedUser.getLogin());
+        System.out.println(feedbackResponse.toString());
+    }
+    @Transactional
+    User saveUser(String name){
+        User user =  User.builder()
+                .login(name)
+                .role(Role.STUDENT)
+                .build();
+        return this.userRepository.save(user);
+    }
+    @Transactional
+    Project saveProject(String name, String description){
+        Project project =  Project.builder()
+                .description(description)
+                .name(name)
+                .build();
+        return this.projectRepository.save(project);
+    }
+
+    Feedback saveFeedback(User evalUser, User appraisedUser, String message, int star, Project project){
+        return this.feedbackRepository.save(Feedback.createFeedback(evalUser, appraisedUser, message, star, project));
     }
 
 

@@ -1,31 +1,26 @@
 package com.seoul.feedback.controller;
 
-import com.seoul.feedback.dto.Token;
-import com.seoul.feedback.dto.response.UserResponse;
-import com.seoul.feedback.service.session.OAuth2SessionService;
+import com.seoul.feedback.security.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/v1")
 public class LoginController {
 
-    private final OAuth2SessionService oAuth2SessionService;
     private final HttpSession httpSession;
+    private final CustomOAuth2UserService oAuth2SessionService;
 
     @Autowired
-    public LoginController(OAuth2SessionService oAuth2SessionService, HttpSession httpSession) {
+    public LoginController(CustomOAuth2UserService oAuth2SessionService, HttpSession httpSession) {
         this.oAuth2SessionService =  oAuth2SessionService;
         this.httpSession = httpSession;
     }

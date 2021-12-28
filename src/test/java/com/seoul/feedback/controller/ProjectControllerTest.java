@@ -2,25 +2,33 @@ package com.seoul.feedback.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import com.seoul.feedback.common.BaseControllerTest;
 import com.seoul.feedback.dto.request.ProjectCreateRequest;
 import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.request.UserCreateRequest;
 import com.seoul.feedback.entity.Project;
+import com.seoul.feedback.entity.Register;
 import com.seoul.feedback.entity.User;
 import com.seoul.feedback.entity.enums.Role;
 import com.seoul.feedback.repository.FeedbackRepository;
 import com.seoul.feedback.repository.ProjectRepository;
 import com.seoul.feedback.repository.RegisterRepository;
 import com.seoul.feedback.repository.UserRepository;
+import com.seoul.feedback.security.SessionUser;
 import com.seoul.feedback.service.feedback.FeedbackService;
 import com.seoul.feedback.service.ProjectService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -28,8 +36,7 @@ import java.util.List;
 
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -63,6 +70,9 @@ class ProjectControllerTest extends BaseControllerTest {
 
     @Autowired
     RegisterRepository registerRepository;
+
+
+
 
 
 
@@ -117,26 +127,51 @@ class ProjectControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = {"STUDENT"})
+    @WithMockUser(roles = {"STUDENT"}, username = "mkim3")
     void getProjectListByNoRegistered() throws Exception {
 
         User testUser = User.builder()
                 .role(Role.STUDENT)
-                .login("testUser")
+                .login("mkim3")
                 .build();
 
-        this.userRepository.save(testUser);
-        mockMvc.perform(get("/api/v1/project/user/{userId}", 10L)
+        Project project = new Project("project1", "projectDescription");
+        Project savedProject = this.projectRepository.save(project);
+        User user =this.userRepository.save(testUser);
+        Register register = Register.createRegister(user, savedProject);
+        this.registerRepository.save(register);
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user", new SessionUser(user));
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/project").session(session)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("[0].projectId").exists())
+                .andDo(document("getProjectsListByUserId",
+                        requestHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("컨텐트 타입 헤더")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN).description("허용 origin"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS).description("허용 메소드"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_MAX_AGE).description("허용 age"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS).description("허용 헤더"),
+                                headerWithName(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS).description("허용 노출 헤더"),
+                                headerWithName(HttpHeaders.VARY).description(""),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("컨텐트 타입 헤더")
+                        ),
+                        responseFields(
+                                fieldWithPath("[0].projectId").description("프로젝트 아이디"),
+                                fieldWithPath("[0].name").description("프로젝트 이름"),
+                                fieldWithPath("[0].description").description("프로젝트 설명")
+                        )));
 
     }
 
     @Test
     @DisplayName("DB에 없는 유저들 생성 후 프로젝트에 등록")
-    @WithMockUser(roles = {"STUDENT"})
-    void registCardetToProject() throws Exception {
+    @WithMockUser(roles = {"STUDENT"}, username = "mkim3")
+    void registCadetToProject() throws Exception {
 
         UserCreateRequest userCreateRequest = new UserCreateRequest("mkim3");
         UserCreateRequest userCreateRequest1 = new UserCreateRequest("mkim2");

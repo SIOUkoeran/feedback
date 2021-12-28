@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/oauth2/**","docs/**").permitAll()
+                .antMatchers("/oauth2/**","/docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()

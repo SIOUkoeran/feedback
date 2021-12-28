@@ -29,4 +29,17 @@ public class FeedbackResponse {
         this.createdAt = feedback.getCreatedAt();
         this.star = feedback.getStar();
     }
+
+    @Override
+    public String toString() {
+        return "FeedbackResponse{" +
+                "projectId=" + projectId +
+                ", feedbackId=" + feedbackId +
+                ", evalUser=" + evalUser +
+                ", appraisedUser=" + appraisedUser +
+                ", message='" + message + '\'' +
+                ", star=" + star +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

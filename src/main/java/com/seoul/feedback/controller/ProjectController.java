@@ -5,9 +5,11 @@ import com.seoul.feedback.dto.request.ProjectUpdateRequest;
 import com.seoul.feedback.dto.response.CommonResponse;
 import com.seoul.feedback.dto.response.project.ProjectResponse;
 import com.seoul.feedback.entity.Project;
+import com.seoul.feedback.entity.User;
 import com.seoul.feedback.service.ProjectService;
 import com.seoul.feedback.service.RegisterService;
 import com.seoul.feedback.service.UserService;
+import com.seoul.feedback.service.session.SessionUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ public class ProjectController {
     private final UserService userService;
     private final RegisterService registerService;
     private final HttpSession httpSession;
+    private final SessionUserService sessionUserService;
 
     @PostMapping(value = "/project")
     public ProjectResponse create(@RequestBody ProjectCreateRequest request) {
@@ -34,9 +37,10 @@ public class ProjectController {
         return new ProjectResponse(project);
     }
 
-    @GetMapping(value = "/project/user/{userId}")
-    public ResponseEntity getProjectsByUser(@PathVariable(name = "userId") Long userId){
-        return ResponseEntity.ok().body(this.userService.findByUserId(userId).stream()
+    @GetMapping(value = "/project")
+    public ResponseEntity getProjectsByUser(){
+        User user = sessionUserService.findBySessionUser(httpSession);
+        return ResponseEntity.ok().body(this.userService.findByUserId(user.getId()).stream()
                 .map(registerResponse -> this.projectService
                         .findRegisteredProjectById(registerResponse.getProjectId())
                 ).collect(Collectors.toList())) ;

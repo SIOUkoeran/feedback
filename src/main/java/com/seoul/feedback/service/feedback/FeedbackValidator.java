@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface FeedbackValidator extends ServiceValidator {
     void isAppraisedUserRegisterProjectThrow(Long projectId, User appraisedUser);
+    void isSameAppraisedUserAndEvalUser(Long evalUserId, Long appraisedUserId);
 }
